@@ -11,8 +11,8 @@ public class Hero extends Character {
     public void goesForward(int numberOfCase){
         int newPosition = this.getPosition() + numberOfCase;
         this.setPosition(newPosition);
-        if (newPosition >= 64){
-            this.setPosition(64) ;
+        if (newPosition >= 63){
+            this.setPosition(63) ;
             //ajouter une sortie de jeu par victoire du personnage
         }
     }
@@ -20,8 +20,8 @@ public class Hero extends Character {
     public void goesBack(int numberOfCase){
         int newPosition = this.getPosition() - numberOfCase;
         this.setPosition(newPosition);
-        if (newPosition < 1){
-            this.setPosition(1) ;
+        if (newPosition < 0){
+            this.setPosition(0) ;
         }
     }
 

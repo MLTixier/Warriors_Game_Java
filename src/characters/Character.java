@@ -12,9 +12,12 @@ public class Character {
         name = myName;
         attack = myAttack;
         life = myLife;
-        position = 1;
+        position = 0;
         maxAttack = myMaxAttack;
         maxLife = myMaxLife;
+    }
+
+    public Character (){
     }
 
     /*------------------------------------------- setters et getters ------------------------------------------*/
@@ -71,6 +74,6 @@ public class Character {
 
     @Override
     public String toString() {
-        return "votre héros est un " + this.getClass().getSimpleName() + " et son nom est " + this.name + ". Il a " + this.attack + " points d'attaque et " + this.life + "points de vie";
+        return   this.getClass().getSimpleName() + " " + this.name + " : " + this.attack + " points d'attaque et " + this.life + " points de vie";
     }
 }

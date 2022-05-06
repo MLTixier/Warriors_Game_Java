@@ -4,7 +4,6 @@ public class Character {
     private String name;
     private int attack;
     private int life;
-    private int position;
     private int maxAttack ;
     private int maxLife ;
 
@@ -12,7 +11,6 @@ public class Character {
         name = myName;
         attack = myAttack;
         life = myLife;
-        position = 0;
         maxAttack = myMaxAttack;
         maxLife = myMaxLife;
     }
@@ -22,12 +20,7 @@ public class Character {
 
     /*------------------------------------------- setters et getters ------------------------------------------*/
 
-    public void setPosition(int caseNumber){
-        this.position = caseNumber;
-    }
-    public int getPosition(){
-        return this.position;
-    }
+
     public void setName(String myName) {
         this.name = myName;
     }
@@ -68,7 +61,6 @@ public class Character {
         this.life = newLife;
         if (newLife <= 0 ){
             this.life = 0;
-            //ajouter une sortie de jeu par mort du personnage
         }
     }
 

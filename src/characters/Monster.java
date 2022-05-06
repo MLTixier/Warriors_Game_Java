@@ -11,6 +11,6 @@ public class Monster extends Character {
     }
 
     public String toString() {
-        return "monstre de type " + this.getName() + ". Il a " + this.getAttack() + " points d'attaque et " + this.getLife() + " points de vie";
+        return "monstre de type " + this.getName() + " : " + this.getAttack() + " points d'attaque et " + this.getLife() + " points de vie";
     }
 }

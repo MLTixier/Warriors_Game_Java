@@ -81,6 +81,7 @@ public class Game extends Main {
             hero.modifyLife(-pointsViePerdusHeros);
             System.out.println("vous avez attaqué le monstre et il a fui, mais vous perdez "  + pointsViePerdusHeros + " points de vie.");
             System.out.println(hero);
+            lanceDeEtAvance();
         } else {
             System.out.println("Le monstre vous a tué, vous avez perdu la partie.");
             quitterJeu();
@@ -103,6 +104,7 @@ public class Game extends Main {
             hero.modifyLife(equipement.getLifeGain());
             supprimerEvenement();
             System.out.println("Grâce à la potion, votre niveau de vie a été augmenté de :" + equipement.getLifeGain());
+            System.out.println(hero);
         } else {
             //cas où l'équipement est une arme ou un sort
             hero.afficheTableauEquipements();

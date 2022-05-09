@@ -1,6 +1,8 @@
 package main;
+
 import characters.*;
 import equipements.*;
+
 import java.util.Random;
 
 public class Plateau {
@@ -26,17 +28,24 @@ public class Plateau {
         for (int i = 0; i < 64; i++) {
             this.plateau[i] = new Case("rien");
         }
-        creationMonstres(50);
-        creationEquipements(50);
+        //implantation e monstres et d'équioement, avec des paramètres précisant la difficulté du parcours :
+        creationMonstres(20, 30, 50);
+        creationEquipements(20);
     }
 
     //création de monstres, positionnés aléatoirement sur le plateau de jeu.
-    public void creationMonstres(int nombre) {
+    public void creationMonstres(int nombre, int pourcentageSorciers, int pourcentageGobelins) {
         //pour chaque monstre, attribution d'un type dragon orgue ou gobelin, et d'un numéro de case.
         for (int i = 0; i < nombre; i++) {
-            int choixTypeMonstre = getRandomInt(3);
+            int choixTypeMonstre = getRandomInt(100);
             int numeroCaseAleatoire = getRandomInt(64);
-            this.plateau[numeroCaseAleatoire] = new Case(listeMonster[choixTypeMonstre]);
+            if (choixTypeMonstre < pourcentageGobelins) {
+                this.plateau[numeroCaseAleatoire] = new Case(listeMonster[2]);
+            } else if (choixTypeMonstre < pourcentageGobelins + pourcentageSorciers) {
+                this.plateau[numeroCaseAleatoire] = new Case(listeMonster[1]);
+            } else {
+                this.plateau[numeroCaseAleatoire] = new Case(listeMonster[0]);
+            }
         }
         System.out.println("le jeu a créé et disposé aléatoirement " + nombre + " monstres. Arriverez-vous à les combattre ?");
     }

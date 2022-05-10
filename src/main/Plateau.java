@@ -3,86 +3,72 @@ package main;
 import characters.*;
 import equipements.*;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+
+import static java.util.Map.entry;
 
 public class Plateau {
 
-    private Case[] plateau = new Case[64];
-    private Monster[] listeMonster = {
-            new Monster("dragon", 4, 15),
-            new Monster("sorcier", 2, 9),
-            new Monster("gobelin", 1, 6),
-    };
-    private Equipement[] listeEquipements = {
-            new Sort("invisibilité", 8),
-            new Arme("arc", 6),
-            new Sort("boule de feu", 7),
-            new Sort("éclair", 2),
-            new Arme("épée", 5),
-            new Arme("massue", 3),
-            new Potion("potion de vie", 2),
-            new Potion("Grande potion de vie", 7),
-    };
+    private Map<String, Integer> listeEvents = Map.ofEntries(
+            entry("characters.Dragon", 3),
+            entry("characters.Sorcier", 20),
+            entry("characters.Gobelin", 30),
+            entry("equipements.Invisibilite", 3),
+            entry("equipements.BouleDeFeu", 3),
+            entry("equipements.Eclair", 5),
+            entry("equipements.Arc", 3),
+            entry("equipements.Epee", 5),
+            entry("equipements.Massue", 5),
+            entry("equipements.PotionSimple", 15),
+            entry("equipements.GrandePotion", 5)
+    );
+
+    private IEvent[] plateau = new IEvent[64];
 
     public Plateau() {
-        for (int i = 0; i < 64; i++) {
-            this.plateau[i] = new Case("rien");
-        }
-        //implantation e monstres et d'équioement, avec des paramètres précisant la difficulté du parcours :
-        creationMonstres(20, 30, 50);
-        creationEquipements(20);
+        ajoutEvents();
+        fillEmptyCases();
+        System.out.println("Plateau de jeu créé !");
     }
 
-    //création de monstres, positionnés aléatoirement sur le plateau de jeu.
-    public void creationMonstres(int nombre, int pourcentageSorciers, int pourcentageGobelins) {
-        //pour chaque monstre, attribution d'un type dragon orgue ou gobelin, et d'un numéro de case.
-        for (int i = 0; i < nombre; i++) {
-            int choixTypeMonstre = getRandomInt(100);
-            int numeroCaseAleatoire = getRandomInt(64);
-            if (choixTypeMonstre < pourcentageGobelins) {
-                this.plateau[numeroCaseAleatoire] = new Case(listeMonster[2]);
-            } else if (choixTypeMonstre < pourcentageGobelins + pourcentageSorciers) {
-                this.plateau[numeroCaseAleatoire] = new Case(listeMonster[1]);
-            } else {
-                this.plateau[numeroCaseAleatoire] = new Case(listeMonster[0]);
+    public void setContenuPlateau(IEvent event, int indice) {
+        this.plateau[indice] = event;
+    }
+
+    public IEvent getContenuPlateau(int indice) {
+        return this.plateau[indice] ;
+    }
+
+    public void ajoutEvents() {
+         //creation de n events pour chaque ligne du tableau listeEvents :
+        for (Map.Entry<String, Integer> events : listeEvents.entrySet()) {
+            String typeEvent = events.getKey();
+            int nombreEvent = events.getValue();
+            for (int i = 0; i < nombreEvent; i++) {
+                int numeroCaseAleatoire = getRandomInt(64);
+                try{
+                    Class classe = Class.forName(typeEvent);
+                    this.plateau[numeroCaseAleatoire] = (IEvent) classe.getConstructor().newInstance();
+                } catch(Exception exception) {
+                    System.out.println("erreur");
+                }
             }
         }
-        System.out.println("le jeu a créé et disposé aléatoirement " + nombre + " monstres. Arriverez-vous à les combattre ?");
     }
 
-    //création d'équipements, positionnés aléatoirement sur le plateau de jeu.
-    public void creationEquipements(int nombre) {
-        //pour chaque équipement, attribution d'un type, et d'un numéro de case.
-        for (int i = 0; i < nombre; i++) {
-            int choixTypeEquipement = getRandomInt(8);
-            int numeroCaseAleatoire = getRandomInt(64);
-            this.plateau[numeroCaseAleatoire] = new Case(listeEquipements[choixTypeEquipement]);
+    public void fillEmptyCases() {
+        for (int i = 0; i < plateau.length; i++) {
+            if (this.plateau[i] == null) {
+                this.plateau[i] = new EmptyCase();
+            }
         }
-        System.out.println("le jeu a créé et disposé aléatoirement " + nombre + " équipements. Arriverez-vous à les récupérer pour gagner des points d'attaque ou de vie ?");
     }
 
     public static int getRandomInt(int entierMax) {
         Random rand = new Random();
         return rand.nextInt(entierMax);
-    }
-
-    public String afficheCasePlateau(int numeroCase) {
-        Case contenuCase = this.plateau[numeroCase];
-        return (contenuCase.afficheContenu());
-    }
-
-    public Monster afficheMonstre(int numeroCase) {
-        Case contenuCase = this.plateau[numeroCase];
-        return (contenuCase.afficheMonstre());
-    }
-
-    public Equipement afficheEquipement(int numeroCase) {
-        Case contenuCase = this.plateau[numeroCase];
-        return (contenuCase.afficheEquipement());
-    }
-
-    public void supprimeEvenementDansTableau(int numeroCase) {
-        this.plateau[numeroCase] = new Case("rien");
     }
 
 }

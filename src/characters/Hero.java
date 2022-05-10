@@ -11,7 +11,6 @@ public class Hero extends Character {
 
     /*-------------------------------------------- avancer et reculer -------------------------------------------*/
 
-
     public void modifieTableauEquipements(Equipement equipement, int position){
         listeEquipements[position]=equipement;
     }
@@ -32,7 +31,16 @@ public class Hero extends Character {
         if (listeEquipements[1]!=null) {
             valeur3 = listeEquipements[1].getAttackGain();
         }
-        return (valeur1 + valeur2 + valeur3);
+        if ((valeur1 + valeur2 + valeur3)<=getMaxAttack()){
+            return (valeur1 + valeur2 + valeur3);
+        } else {
+            return getMaxAttack();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return   this.getClass().getSimpleName() + " " + this.getName() + " : " + this.calculeAttack() + " points d'attaque et " + this.getLife() + " points de vie";
     }
 
 }

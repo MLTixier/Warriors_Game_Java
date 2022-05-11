@@ -6,7 +6,7 @@ import equipements.*;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Game extends Main {
+public class Game {
 
     public Scanner scanner;
     private Hero hero;

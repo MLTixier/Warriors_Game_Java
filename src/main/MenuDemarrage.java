@@ -4,7 +4,7 @@ import characters.Warrior;
 import characters.Wizzard;
 import java.util.Scanner;
 
-public class MenuDemarrage extends Main {
+public class MenuDemarrage {
 
     public Scanner scanner = new Scanner(System.in);
     public Hero hero ;

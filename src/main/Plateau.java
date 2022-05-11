@@ -11,17 +11,17 @@ import static java.util.Map.entry;
 public class Plateau {
 
     private Map<String, Integer> listeEvents = Map.ofEntries(
-            entry("characters.Dragon", 2),
-            entry("characters.Sorcier", 8),
+            entry("characters.Dragon", 5),
+            entry("characters.Sorcier", 10),
             entry("characters.Gobelin", 10),
             entry("equipements.Invisibilite", 3),
             entry("equipements.BouleDeFeu", 4),
-            entry("equipements.Eclair", 5),
+            entry("equipements.Eclair", 1),
             entry("equipements.Arc", 3),
             entry("equipements.Epee", 4),
-            entry("equipements.Massue", 5),
-            entry("equipements.PotionSimple", 10),
-            entry("equipements.GrandePotion", 5),
+            entry("equipements.Massue", 1),
+            entry("equipements.PotionSimple", 5),
+            entry("equipements.GrandePotion", 3),
             entry("main.EmptyCase", 5)
     );
 

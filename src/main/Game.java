@@ -2,6 +2,7 @@ package main;
 
 import characters.*;
 import equipements.*;
+import exceptions.SortieJeuException;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -11,30 +12,29 @@ public class Game {
     public Scanner scanner;
     private Hero hero;
     private Plateau plateau;
-    private int position = 0;
 
-    public Game(Scanner scanner, Hero hero) {
+    public Game(Scanner scanner, Hero hero) throws SortieJeuException {
         this.scanner = scanner;
         this.hero = hero;
         this.plateau = new Plateau();
-       jouer();
+        jouer();
     }
 
-    public void jouer() {
-        while (hero != null) {
-            menuJouer();
+    public void jouer() throws SortieJeuException {
+        while (hero.isAlive()) {
+            System.out.println("votre personnage est sur la case " + hero.getPosition());
+            resolutionEvent();
+            while (hero.isFuyard()) {
+                hero.setFuyard(false);
+                resolutionEvent();
+            }
+            if (hero.isAlive()) {
+                menuJouer();
+            }
         }
     }
 
-    public void setPosition(int newPosition) {
-        position = newPosition;
-    }
-
-    public int getPosition() {
-        return position;
-    }
-
-    public void menuJouer() {
+    public void menuJouer() throws SortieJeuException {
         System.out.println("Que souhaitez-vous faire ?");
         String decision = "";
         while (!(decision.equals("d") || decision.equals("a") || decision.equals("q"))) {
@@ -44,14 +44,11 @@ public class Game {
         if (decision.equals("d")) {
             int valeurDe = getRandomInt(6) + 1;
             System.out.println("Vous avez jeté le dé et fait :" + valeurDe);
-            this.goesForward(valeurDe);
-            System.out.println("Vous avez avancé jusqu'à la case :" + position);
-            if (position >= 64) {
+            hero.goesForward(valeurDe);
+            if (hero.getPosition() >= 64) {
                 System.out.println("vous êtes arrivé au bout du parcours, vous avez gagné !");
                 hero = null;
                 quitterJeu();
-            } else {
-                resolutionEvent();
             }
         } else if (decision.equals("q")) {
             quitterJeu();
@@ -60,9 +57,9 @@ public class Game {
         }
     }
 
-    public void resolutionEvent() {
-        System.out.println(this.plateau.getContenuPlateau(position).readEvent());
-        this.plateau.getContenuPlateau(position).actionEvent(hero, scanner);
+    public void resolutionEvent() throws SortieJeuException {
+        System.out.println(this.plateau.getContenuPlateau(hero.getPosition()).readEvent());
+        this.plateau.getContenuPlateau(hero.getPosition()).actionEvent(hero, scanner);
     }
 
     /*----------------------------- génération aléatoire de nombres ------------------------------*/
@@ -72,21 +69,6 @@ public class Game {
         return rand.nextInt(entierMax);
     }
 
-    /*----------------------------- compatibilité héros - équipement ------------------------------*/
-
-
-    public void goesForward(int numberOfCase) {
-        int newPosition = this.getPosition() + numberOfCase;
-        this.setPosition(newPosition);
-    }
-
-    public void goesBack(int numberOfCase) {
-        int newPosition = this.getPosition() - numberOfCase;
-        this.setPosition(newPosition);
-        if (newPosition < 0) {
-            this.setPosition(0);
-        }
-    }
 
     public void quitterJeu() {
         System.out.println("Voulez-vous quitter le jeu définitivement ?");

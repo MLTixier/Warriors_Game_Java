@@ -2,6 +2,8 @@ package main;
 import characters.Hero;
 import characters.Warrior;
 import characters.Wizzard;
+import exceptions.SortieJeuException;
+
 import java.util.Scanner;
 
 public class MenuDemarrage {
@@ -9,11 +11,11 @@ public class MenuDemarrage {
     public Scanner scanner = new Scanner(System.in);
     public Hero hero ;
 
-    public MenuDemarrage() {
+    public MenuDemarrage() throws SortieJeuException {
         this.creerPersonnage();
     }
 
-    public void creerPersonnage() {
+    public void creerPersonnage() throws SortieJeuException {
         System.out.println("Quel personnage voulez-vous créer ?");
         String heroType = "";
         while (!(heroType.equals("g") || heroType.equals("m"))) {
@@ -32,7 +34,7 @@ public class MenuDemarrage {
         questionsMenu2();
     }
 
-    public void questionsMenu2() {
+    public void questionsMenu2() throws SortieJeuException {
         System.out.println("Que souhaitez-vous faire ?");
         String menu2Choice = "";
         while (!(menu2Choice.equals("a") || menu2Choice.equals("m") || menu2Choice.equals("j")) ) {
@@ -52,12 +54,12 @@ public class MenuDemarrage {
         }
     }
 
-    public void afficherPersonnage() {
+    public void afficherPersonnage() throws SortieJeuException {
         System.out.println(hero);
         questionsMenu2();
     }
 
-    public void modifierPersonnage() {
+    public void modifierPersonnage() throws SortieJeuException {
         System.out.println("Que voulez-vous modifier ?");
         String modifSouhaitee = "";
         while (!(modifSouhaitee.equals("q") || modifSouhaitee.equals("n"))) {
@@ -73,7 +75,7 @@ public class MenuDemarrage {
         questionsMenu2();
     }
 
-    public void jouer() {
+    public void jouer() throws SortieJeuException {
         Game game = new Game(scanner, hero);
     }
 

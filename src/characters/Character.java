@@ -30,7 +30,7 @@ public class Character {
             this.name = myName;
         }
 
-        public boolean getExists () {
+        public boolean isAlive () {
             return this.exists;
         }
 

@@ -1,6 +1,8 @@
 package characters;
 import equipements.*;
 
+import java.util.Arrays;
+
 public class Hero extends Character {
 
     private Equipement[] listeEquipements = {null,null} ;
@@ -40,7 +42,7 @@ public class Hero extends Character {
 
     @Override
     public String toString() {
-        return   this.getClass().getSimpleName() + " " + this.getName() + " : " + this.calculeAttack() + " points d'attaque et " + this.getLife() + " points de vie";
+        return   this.getClass().getSimpleName() + " " + this.getName() + " : " + this.calculeAttack() + " (" + this.getMaxAttack() + " max) points d'attaque et " + this.getLife() + " (" + this.getMaxLife() + " max) points de vie";
     }
 
 }

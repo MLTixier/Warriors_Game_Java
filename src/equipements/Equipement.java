@@ -58,7 +58,7 @@ public class Equipement implements IEvent {
         this.scanner = scanner;
         if (this.exists) {
             regarderEquipement(hero);
-        }else{
+        } else {
             System.out.println("L'équipement qui était sur cette case a déjà été pris.");
         }
     }
@@ -85,10 +85,13 @@ public class Equipement implements IEvent {
         switch (decisionEquipement) {
             case "1":
                 hero.modifieTableauEquipements(this, 0);
-                this.exists=false;
+                this.exists = false;
+                hero.afficheTableauEquipements();
+                break;
             case "2":
                 hero.modifieTableauEquipements(this, 1);
-                this.exists=false;
+                this.exists = false;
+                hero.afficheTableauEquipements();
                 break;
             case "3":
                 break;
@@ -99,17 +102,11 @@ public class Equipement implements IEvent {
         boolean result = false;
         String typeEquipement = this.getClass().getSimpleName();
         String typeHero = hero.getClass().getSimpleName();
-        switch (typeEquipement) {
-            case "Arme":
-                if (typeHero.equals("Warrior")) {
-                    result = true;
-                }
-                break;
-            case "Sort":
-                if (typeHero.equals("Wizzard")) {
-                    result = true;
-                }
-                break;
+        System.out.println(typeEquipement);
+        if ((typeEquipement.equals("Arc") || typeEquipement.equals("Epee") || typeEquipement.equals("Massue")) && (typeHero.equals("Warrior"))) {
+            result = true;
+        } else if ((typeEquipement.equals("Invisibilite") || typeEquipement.equals("BouleDeFeu") || typeEquipement.equals("Eclair")) && (typeHero.equals("Wizzard"))) {
+            result = true;
         }
         return result;
     }

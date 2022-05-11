@@ -1,7 +1,5 @@
 package equipements;
 
-import main.IEvent;
-
 public class BouleDeFeu extends Sort {
 
     public BouleDeFeu(){

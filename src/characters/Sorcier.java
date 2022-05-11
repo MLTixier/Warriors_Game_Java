@@ -1,7 +1,5 @@
 package characters;
 
-import main.IEvent;
-
 public class Sorcier extends Monster {
 
     public Sorcier(){

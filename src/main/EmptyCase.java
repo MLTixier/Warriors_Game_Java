@@ -4,9 +4,10 @@ import characters.Hero;
 
 import java.util.Scanner;
 
-public class EmptyCase implements IEvent {
+public class EmptyCase extends Case {
 
     public EmptyCase(){
+        super();
     }
 
     @Override
@@ -16,5 +17,8 @@ public class EmptyCase implements IEvent {
 
     @Override
     public void actionEvent(Hero hero, Scanner scanner) {
+
     }
+
+
 }

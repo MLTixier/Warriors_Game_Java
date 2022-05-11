@@ -17,10 +17,13 @@ public class Game {
         this.scanner = scanner;
         this.hero = hero;
         this.plateau = new Plateau();
+       jouer();
+    }
+
+    public void jouer() {
         while (hero != null) {
             menuJouer();
         }
-        quitterJeu();
     }
 
     public void setPosition(int newPosition) {
@@ -45,6 +48,7 @@ public class Game {
             System.out.println("Vous avez avancé jusqu'à la case :" + position);
             if (position >= 64) {
                 System.out.println("vous êtes arrivé au bout du parcours, vous avez gagné !");
+                hero = null;
                 quitterJeu();
             } else {
                 resolutionEvent();
@@ -53,14 +57,12 @@ public class Game {
             quitterJeu();
         } else if (decision.equals("a")) {
             System.out.println(hero);
-            menuJouer();
         }
     }
 
     public void resolutionEvent() {
-        IEvent event = this.plateau.getContenuPlateau(position);
-        System.out.println(event.readEvent());
-        event.actionEvent(hero, scanner);
+        System.out.println(this.plateau.getContenuPlateau(position).readEvent());
+        this.plateau.getContenuPlateau(position).actionEvent(hero, scanner);
     }
 
     /*----------------------------- génération aléatoire de nombres ------------------------------*/
@@ -94,6 +96,7 @@ public class Game {
             choixQuitter = scanner.nextLine();
         }
         if (choixQuitter.equals("o")) {
+            hero = null;
             System.out.println("Au revoir et merci d'avoir joué avec nous !");
         } else if (choixQuitter.equals("r")) {
             Main main = new Main();

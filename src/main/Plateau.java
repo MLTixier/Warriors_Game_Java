@@ -25,34 +25,25 @@ public class Plateau {
             entry("main.EmptyCase", 5)
     );
 
-    private IEvent[] plateau = new IEvent[64];
+    private Case[] plateau = new Case[64];
 
     public Plateau() {
         ajoutEvents();
-        try {
-            verifyEmptyCases();
-        } catch (CaseVideException caseVideException) {
-            System.out.println(caseVideException.getMessage());
-        }
         System.out.println("Plateau de jeu créé !");
     }
 
-    public IEvent[] getPlateau() {
+    public Case[] getPlateau() {
         return plateau;
     }
 
-    public void setContenuPlateau(IEvent event, int indice) {
-        this.plateau[indice] = event;
-    }
-
-    public IEvent getContenuPlateau(int indice) {
-        return this.plateau[indice];
+    public Case getContenuPlateau(int indice) {
+        Case contenuCase = (Case) this.plateau[indice];
+        return contenuCase ;
     }
 
     public void ajoutEvents() {
         //creation de n events pour chaque ligne du tableau listeEvents :
         int[] randomCases = getTableauRandom(64);
-        System.out.println(randomCases);
         int i = 0;
         for (Map.Entry<String, Integer> events : listeEvents.entrySet()) {
             String typeEvent = events.getKey();
@@ -60,20 +51,23 @@ public class Plateau {
             for (int nbE = 0; nbE < nombreEvent; nbE++) {
                 try {
                     Class classe = Class.forName(typeEvent);
-                    this.plateau[randomCases[i]] = (IEvent) classe.getConstructor().newInstance();
+                    if (typeEvent.equals("main.EmptyCase")){
+                        this.plateau[randomCases[i]] = new EmptyCase();
+                    } else if (typeEvent.equals("characters.Dragon")||typeEvent.equals("characters.Sorcier")||typeEvent.equals("characters.Gobelin")) {
+                        Monster monster = (Monster) classe.getConstructor().newInstance();
+                        this.plateau[randomCases[i]] = new CaseMonster(monster);
+                    } else if (typeEvent.equals("equipements.GrandePotion")||typeEvent.equals("equipements.PotionSimple")){
+                        Potion potion = (Potion) classe.getConstructor().newInstance();
+                        this.plateau[randomCases[i]] = new CasePotion(potion);
+                    } else {
+                        //cas des équipements hors potions :
+                        Equipement equipement = (Equipement) classe.getConstructor().newInstance();
+                        this.plateau[randomCases[i]] = new CaseEquipement(equipement);
+                    }
                     i++;
                 } catch (Exception exception) {
                     System.out.println("erreur");
                 }
-            }
-        }
-    }
-
-    public void verifyEmptyCases() throws CaseVideException {
-        for (int i = 0; i < plateau.length; i++) {
-            if (this.plateau[i] == null) {
-                String err = "il y a au moins une case vide dans le tableau : " + i;
-                throw new CaseVideException(err);
             }
         }
     }

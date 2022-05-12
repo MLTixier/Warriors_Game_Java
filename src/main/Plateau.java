@@ -25,7 +25,7 @@ public class Plateau {
             entry("main.EmptyCase", 5)
     );
 
-    private Case[] plateau = new Case[64];
+    private Case[] plateau = new Case[65];
 
     public Plateau() {
         ajoutEvents();
@@ -43,8 +43,9 @@ public class Plateau {
 
     public void ajoutEvents() {
         //creation de n events pour chaque ligne du tableau listeEvents :
-        int[] randomCases = getTableauRandom(64);
-        int i = 0;
+        int[] randomCases = getTableauRandom(65);
+        this.plateau[randomCases[0]] = new EmptyCase();
+        int i = 1;
         for (Map.Entry<String, Integer> events : listeEvents.entrySet()) {
             String typeEvent = events.getKey();
             int nombreEvent = events.getValue();
@@ -78,7 +79,7 @@ public class Plateau {
     }
 
     public int[] getTableauRandom(int entierMax) {
-        int[] ar = new int[64];
+        int[] ar = new int[entierMax];
         for (int i = 0; i < entierMax; i++) {
             ar[i] = i;
         }
@@ -88,7 +89,7 @@ public class Plateau {
 
     static int[] rand(int array[], int a) {
         Random rd = new Random();
-        for (int i = a - 1; i > 0; i--) {
+        for (int i = a - 1; i > 1; i--) {
             int j = rd.nextInt(i + 1);
             int temp = array[i];
             array[i] = array[j];

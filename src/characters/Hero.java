@@ -34,7 +34,7 @@ public class Hero extends Character {
 
     public void goesForward(int numberOfCase) throws SortieJeuException {
         int newPosition = this.getPosition() + numberOfCase;
-        if (newPosition>=64){
+        if (newPosition>64){
             throw new SortieJeuException("Sortie plateau !");
         }
         this.setPosition(newPosition);

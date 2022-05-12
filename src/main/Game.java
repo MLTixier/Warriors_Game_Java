@@ -22,14 +22,12 @@ public class Game {
 
     public void jouer() throws SortieJeuException {
         while (hero.isAlive()) {
+            menuJouer();
             System.out.println("votre personnage est sur la case " + hero.getPosition());
             resolutionEvent();
             while (hero.isFuyard()) {
                 hero.setFuyard(false);
                 resolutionEvent();
-            }
-            if (hero.isAlive()) {
-                menuJouer();
             }
         }
     }

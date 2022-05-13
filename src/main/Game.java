@@ -5,6 +5,7 @@ import exceptions.PourcentagesPlateauException;
 import exceptions.SortieJeuException;
 import main.random.De6Faces;
 import main.random.FakeDe;
+import main.random.RandomDe;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -15,19 +16,31 @@ public class Game {
     private Hero hero;
     private Plateau plateau;
     private VisualBoard visualBoard ;
-    private FakeDe de = new FakeDe();
+    private RandomDe de ;
 
+    /**
+     * constructeur de la classe Game pour récupérer le scanner et le héros créés au menu démarrage, et instancier un plateau, un dé, une position du héros, etc.
+     * @param scanner scanner
+     * @param hero héros
+     * @throws SortieJeuException
+     * @throws PourcentagesPlateauException
+     */
     public Game(Scanner scanner, Hero hero) throws SortieJeuException, PourcentagesPlateauException {
         this.scanner = scanner;
         this.hero = hero;
         this.plateau = new Plateau();
         this.visualBoard = new VisualBoard(plateau);
+        this.de = new De6Faces();
         System.out.println("Plateau de jeu créé !");
         visualBoard.afficherPlateauCache();
         System.out.println("les points signifient case vide, les coeurs un équipement, les X un monstre.");
         jouer();
     }
 
+    /**
+     * méthode pour faire la dynamique de chaque tour de jeu : lance le menu jouer avec les choix de l'utilisateur, puis affiche le plateau et résout l'événement de la case.
+     * @throws SortieJeuException
+     */
     public void jouer() throws SortieJeuException {
         while (hero.isAlive()) {
             menuJouer();
@@ -43,6 +56,9 @@ public class Game {
         }
     }
 
+    /**
+     * méthode pour afficher les choix utilisateurs à chaque début de tour : lancer le dé, afficher infos du personnage ou quitter.
+     */
     public void menuJouer() {
         System.out.println("");
         System.out.println("Que souhaitez-vous faire ?");
@@ -68,12 +84,18 @@ public class Game {
         }
     }
 
+    /**
+     * méthode pour lire le contenu de la case, afficher ce qu'il va se passer et faire l'action.
+     * @throws SortieJeuException
+     */
     public void resolutionEvent() throws SortieJeuException {
         System.out.println(this.plateau.getContenuPlateau(hero.getPosition()).readEvent());
         this.plateau.getContenuPlateau(hero.getPosition()).actionEvent(hero, scanner);
     }
 
-
+    /**
+     * méthode pour quitter le jeu
+     */
     public void quitterJeu() {
         System.out.println("Voulez-vous quitter le jeu définitivement ?");
         String choixQuitter = "";
@@ -82,13 +104,11 @@ public class Game {
             choixQuitter = scanner.nextLine();
         }
         if (choixQuitter.equals("o")) {
-            hero = null;
+            hero.setExists(false);
             System.out.println("Au revoir et merci d'avoir joué avec nous !");
         } else if (choixQuitter.equals("r")) {
             Main main = new Main();
         }
     }
-
-
 
 }

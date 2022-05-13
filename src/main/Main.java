@@ -8,10 +8,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
-public class Main /*extends JFrame*/ {
+public class Main extends JFrame {
 
     public Main() {
-        /*
+
         super("Bienvenue dans le jeu des Warriors !");
         WindowListener l = new WindowAdapter() {
             public void windowClosing(WindowEvent e){
@@ -20,14 +20,14 @@ public class Main /*extends JFrame*/ {
         };
 
         addWindowListener(l);
-        setSize(200,100);
+        setSize(50,50);
         setVisible(true);
 
-         */
     }
 
     public static void main(String[] args) throws SortieJeuException, PourcentagesPlateauException {
-        System.out.println("Bienvenue dans le jeu des Warriors !");
+        //System.out.println("Bienvenue dans le jeu des Warriors !");
+        JFrame frame = new Main();
         MenuDemarrage menuDemarrage = new MenuDemarrage();
     }
 

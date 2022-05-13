@@ -9,13 +9,24 @@ import java.util.Scanner;
 
 public class MenuDemarrage {
 
-    public Scanner scanner = new Scanner(System.in);
+    public Scanner scanner ;
     public Hero hero ;
 
+    /**
+     * constructeur pour la classe MenuDemarrage : créée un scanner et créée un héros.
+     * @throws SortieJeuException
+     * @throws PourcentagesPlateauException
+     */
     public MenuDemarrage() throws SortieJeuException, PourcentagesPlateauException {
+        this.scanner = new Scanner(System.in);
         this.creerPersonnage();
     }
 
+    /**
+     * méthode pour instancier un héros, selon le type souhaité et le nom souhéité.
+     * @throws SortieJeuException
+     * @throws PourcentagesPlateauException
+     */
     public void creerPersonnage() throws SortieJeuException, PourcentagesPlateauException {
         System.out.println("Quel personnage voulez-vous créer ?");
         String heroType = "";
@@ -35,6 +46,11 @@ public class MenuDemarrage {
         questionsMenu2();
     }
 
+    /**
+     * méthode pour afficher les choix utilisateur après la création du héros (afficher, modifier ou jouer)
+     * @throws SortieJeuException
+     * @throws PourcentagesPlateauException
+     */
     public void questionsMenu2() throws SortieJeuException, PourcentagesPlateauException {
         System.out.println("Que souhaitez-vous faire ?");
         String menu2Choice = "";
@@ -55,11 +71,21 @@ public class MenuDemarrage {
         }
     }
 
+    /**
+     * méthide pour afficher les infos du personnage
+     * @throws SortieJeuException
+     * @throws PourcentagesPlateauException
+     */
     public void afficherPersonnage() throws SortieJeuException, PourcentagesPlateauException {
         System.out.println(hero);
         questionsMenu2();
     }
 
+    /**
+     * Méthode pour modifier le nom du personnage
+     * @throws SortieJeuException
+     * @throws PourcentagesPlateauException
+     */
     public void modifierPersonnage() throws SortieJeuException, PourcentagesPlateauException {
         System.out.println("Que voulez-vous modifier ?");
         String modifSouhaitee = "";
@@ -76,6 +102,11 @@ public class MenuDemarrage {
         questionsMenu2();
     }
 
+    /**
+     * Méthode pour lancer le jeu.
+     * @throws SortieJeuException
+     * @throws PourcentagesPlateauException
+     */
     public void jouer() throws SortieJeuException, PourcentagesPlateauException {
         Game game = new Game(scanner, hero);
     }

@@ -1,9 +1,10 @@
 package main;
 
 import characters.*;
-import equipements.*;
+import exceptions.PourcentagesPlateauException;
 import exceptions.SortieJeuException;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -12,11 +13,16 @@ public class Game {
     public Scanner scanner;
     private Hero hero;
     private Plateau plateau;
+    private VisualBoard visualBoard ;
 
-    public Game(Scanner scanner, Hero hero) throws SortieJeuException {
+    public Game(Scanner scanner, Hero hero) throws SortieJeuException, PourcentagesPlateauException {
         this.scanner = scanner;
         this.hero = hero;
         this.plateau = new Plateau();
+        this.visualBoard = new VisualBoard(plateau);
+        System.out.println("Plateau de jeu créé !");
+        visualBoard.afficherPlateauCache();
+        System.out.println("les points signifient case vide, les coeurs un équipement, les X un monstre.");
         jouer();
     }
 
@@ -24,15 +30,19 @@ public class Game {
         while (hero.isAlive()) {
             menuJouer();
             System.out.println("votre personnage est sur la case " + hero.getPosition());
+            visualBoard.afficherPlateauFinal(hero.getPosition(), hero.getPreviousPosition());
             resolutionEvent();
             while (hero.isFuyard()) {
                 hero.setFuyard(false);
+                System.out.println("votre personnage est sur la case " + hero.getPosition());
+                visualBoard.afficherPlateauFinal(hero.getPosition(), hero.getPreviousPosition());
                 resolutionEvent();
             }
         }
     }
 
-    public void menuJouer() throws SortieJeuException {
+    public void menuJouer() {
+        System.out.println("");
         System.out.println("Que souhaitez-vous faire ?");
         String decision = "";
         while (!(decision.equals("d") || decision.equals("a") || decision.equals("q"))) {
@@ -42,8 +52,9 @@ public class Game {
         if (decision.equals("d")) {
             int valeurDe = getRandomInt(6) + 1;
             System.out.println("Vous avez jeté le dé et fait :" + valeurDe);
-            hero.goesForward(valeurDe);
-            if (hero.getPosition() >= 64) {
+            try {
+                hero.goesForward(valeurDe);
+            }catch (SortieJeuException sortieJeuException){
                 System.out.println("vous êtes arrivé au bout du parcours, vous avez gagné !");
                 hero = null;
                 quitterJeu();
@@ -82,4 +93,7 @@ public class Game {
             Main main = new Main();
         }
     }
+
+
+
 }

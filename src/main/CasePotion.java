@@ -13,6 +13,7 @@ public class CasePotion extends Case {
     public CasePotion(Potion potion) {
         super();
         this.potion = potion;
+        this.setStringContent("potion");
     }
 
     @Override

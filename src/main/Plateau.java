@@ -2,7 +2,7 @@ package main;
 
 import characters.*;
 import equipements.*;
-import exceptions.CaseVideException;
+import exceptions.*;
 
 import java.util.*;
 
@@ -12,8 +12,8 @@ public class Plateau {
 
     private Map<String, Integer> listeEvents = Map.ofEntries(
             entry("characters.Dragon", 5),
-            entry("characters.Sorcier", 10),
-            entry("characters.Gobelin", 10),
+            entry("characters.Sorcier", 15),
+            entry("characters.Gobelin", 15),
             entry("equipements.Invisibilite", 3),
             entry("equipements.BouleDeFeu", 4),
             entry("equipements.Eclair", 1),
@@ -22,14 +22,19 @@ public class Plateau {
             entry("equipements.Massue", 1),
             entry("equipements.PotionSimple", 5),
             entry("equipements.GrandePotion", 3),
-            entry("main.EmptyCase", 5)
+            entry("main.EmptyCase", 6)
     );
 
     private Case[] plateau = new Case[65];
 
-    public Plateau() {
+    public Plateau() throws PourcentagesPlateauException {
+        if (!pourcentagesPlateauOK()) {
+            throw new PourcentagesPlateauException();
+        }
         ajoutEvents();
-        System.out.println("Plateau de jeu créé !");
+        //System.out.println(Arrays.toString(plateau));
+        ImageDragon image = new ImageDragon();
+        image.afficheDragon();
     }
 
     public Case[] getPlateau() {
@@ -38,7 +43,7 @@ public class Plateau {
 
     public Case getContenuPlateau(int indice) {
         Case contenuCase = (Case) this.plateau[indice];
-        return contenuCase ;
+        return contenuCase;
     }
 
     public void ajoutEvents() {
@@ -52,12 +57,12 @@ public class Plateau {
             for (int nbE = 0; nbE < nombreEvent; nbE++) {
                 try {
                     Class classe = Class.forName(typeEvent);
-                    if (typeEvent.equals("main.EmptyCase")){
+                    if (typeEvent.equals("main.EmptyCase")) {
                         this.plateau[randomCases[i]] = new EmptyCase();
-                    } else if (typeEvent.equals("characters.Dragon")||typeEvent.equals("characters.Sorcier")||typeEvent.equals("characters.Gobelin")) {
+                    } else if (typeEvent.equals("characters.Dragon") || typeEvent.equals("characters.Sorcier") || typeEvent.equals("characters.Gobelin")) {
                         Monster monster = (Monster) classe.getConstructor().newInstance();
                         this.plateau[randomCases[i]] = new CaseMonster(monster);
-                    } else if (typeEvent.equals("equipements.GrandePotion")||typeEvent.equals("equipements.PotionSimple")){
+                    } else if (typeEvent.equals("equipements.GrandePotion") || typeEvent.equals("equipements.PotionSimple")) {
                         Potion potion = (Potion) classe.getConstructor().newInstance();
                         this.plateau[randomCases[i]] = new CasePotion(potion);
                     } else {
@@ -67,7 +72,6 @@ public class Plateau {
                     }
                     i++;
                 } catch (Exception exception) {
-                    System.out.println("erreur");
                 }
             }
         }
@@ -95,8 +99,21 @@ public class Plateau {
             array[i] = array[j];
             array[j] = temp;
         }
+        for (int i = 0; i < a; i++) {
+            if (array[i] == 0) {
+                array[i] = array[0];
+                array[0] = 0;
+            }
+        }
         return array;
     }
 
+    public boolean pourcentagesPlateauOK() {
+        int somme = 0;
+        for (Integer value : listeEvents.values()) {
+            somme += value;
+        }
+        return (somme == 65);
+    }
 
 }

@@ -2,6 +2,7 @@ package main;
 import characters.Hero;
 import characters.Warrior;
 import characters.Wizzard;
+import exceptions.PourcentagesPlateauException;
 import exceptions.SortieJeuException;
 
 import java.util.Scanner;
@@ -11,11 +12,11 @@ public class MenuDemarrage {
     public Scanner scanner = new Scanner(System.in);
     public Hero hero ;
 
-    public MenuDemarrage() throws SortieJeuException {
+    public MenuDemarrage() throws SortieJeuException, PourcentagesPlateauException {
         this.creerPersonnage();
     }
 
-    public void creerPersonnage() throws SortieJeuException {
+    public void creerPersonnage() throws SortieJeuException, PourcentagesPlateauException {
         System.out.println("Quel personnage voulez-vous créer ?");
         String heroType = "";
         while (!(heroType.equals("g") || heroType.equals("m"))) {
@@ -34,7 +35,7 @@ public class MenuDemarrage {
         questionsMenu2();
     }
 
-    public void questionsMenu2() throws SortieJeuException {
+    public void questionsMenu2() throws SortieJeuException, PourcentagesPlateauException {
         System.out.println("Que souhaitez-vous faire ?");
         String menu2Choice = "";
         while (!(menu2Choice.equals("a") || menu2Choice.equals("m") || menu2Choice.equals("j")) ) {
@@ -54,12 +55,12 @@ public class MenuDemarrage {
         }
     }
 
-    public void afficherPersonnage() throws SortieJeuException {
+    public void afficherPersonnage() throws SortieJeuException, PourcentagesPlateauException {
         System.out.println(hero);
         questionsMenu2();
     }
 
-    public void modifierPersonnage() throws SortieJeuException {
+    public void modifierPersonnage() throws SortieJeuException, PourcentagesPlateauException {
         System.out.println("Que voulez-vous modifier ?");
         String modifSouhaitee = "";
         while (!(modifSouhaitee.equals("q") || modifSouhaitee.equals("n"))) {
@@ -75,7 +76,7 @@ public class MenuDemarrage {
         questionsMenu2();
     }
 
-    public void jouer() throws SortieJeuException {
+    public void jouer() throws SortieJeuException, PourcentagesPlateauException {
         Game game = new Game(scanner, hero);
     }
 

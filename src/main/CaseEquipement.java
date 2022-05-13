@@ -13,11 +13,16 @@ public class CaseEquipement extends Case {
     public CaseEquipement(Equipement equipement) {
         super();
         this.equipement = equipement;
+        this.setStringContent("equipement");
     }
 
     @Override
     public String readEvent() {
-        return "la case cachait un équipement.";
+        if (equipement.getExists()) {
+            return "la case cachait un équipement.";
+        } else {
+            return "case vide";
+        }
     }
 
     @Override
@@ -53,12 +58,12 @@ public class CaseEquipement extends Case {
             case "1":
                 hero.modifieTableauEquipements(equipement, 0);
                 equipement.setExists(false);
-                hero.afficheTableauEquipements();
+                System.out.println("Equipement ajouté avec succès !");
                 break;
             case "2":
                 hero.modifieTableauEquipements(equipement, 1);
                 equipement.setExists(false);
-                hero.afficheTableauEquipements();
+                System.out.println("Equipement ajouté avec succès !");
                 break;
             case "3":
                 break;

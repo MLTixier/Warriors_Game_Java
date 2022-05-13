@@ -15,11 +15,16 @@ public class CaseMonster extends Case {
     public CaseMonster(Monster monster) {
         super();
         this.monster = monster;
+        this.setStringContent("monstre");
     }
 
     @Override
     public String readEvent() {
-        return "la case cachait un monstre, vous allez devoir combattre !";
+        if (monster.isAlive()) {
+            return "la case cachait un monstre, vous allez devoir combattre !";
+        } else {
+            return "case vide";
+        }
     }
 
     @Override

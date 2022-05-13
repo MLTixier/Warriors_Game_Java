@@ -7,8 +7,18 @@ import java.util.Scanner;
 
 public abstract class Case {
 
+    private String stringContent ;
+
     public Case(){
 
+    }
+
+    public String getStringContent() {
+        return stringContent;
+    }
+
+    public void setStringContent(String stringContent) {
+        this.stringContent = stringContent;
     }
 
     public abstract String readEvent();

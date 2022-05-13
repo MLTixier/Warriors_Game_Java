@@ -8,6 +8,7 @@ public class EmptyCase extends Case {
 
     public EmptyCase(){
         super();
+        this.setStringContent("vide");
     }
 
     @Override

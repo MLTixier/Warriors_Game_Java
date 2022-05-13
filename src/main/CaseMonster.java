@@ -3,6 +3,7 @@ package main;
 import characters.Hero;
 import characters.Monster;
 import exceptions.SortieJeuException;
+import main.random.De6Faces;
 
 import java.util.Random;
 import java.util.Scanner;
@@ -69,7 +70,8 @@ public class CaseMonster extends Case {
     }
 
     public void fuite(Hero hero) throws SortieJeuException {
-        int nbCases = getRandomInt(6) + 1;
+        De6Faces de = new De6Faces();
+        int nbCases = de.valeur();
         hero.goesBack(nbCases);
         System.out.println("vous avez reculé de " + nbCases + " cases.");
     }

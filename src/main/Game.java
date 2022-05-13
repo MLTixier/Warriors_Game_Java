@@ -3,8 +3,9 @@ package main;
 import characters.*;
 import exceptions.PourcentagesPlateauException;
 import exceptions.SortieJeuException;
+import main.random.De6Faces;
+import main.random.FakeDe;
 
-import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -14,6 +15,7 @@ public class Game {
     private Hero hero;
     private Plateau plateau;
     private VisualBoard visualBoard ;
+    private FakeDe de = new FakeDe();
 
     public Game(Scanner scanner, Hero hero) throws SortieJeuException, PourcentagesPlateauException {
         this.scanner = scanner;
@@ -50,7 +52,7 @@ public class Game {
             decision = scanner.nextLine();
         }
         if (decision.equals("d")) {
-            int valeurDe = getRandomInt(6) + 1;
+            int valeurDe = de.valeur();
             System.out.println("Vous avez jeté le dé et fait :" + valeurDe);
             try {
                 hero.goesForward(valeurDe);
@@ -69,13 +71,6 @@ public class Game {
     public void resolutionEvent() throws SortieJeuException {
         System.out.println(this.plateau.getContenuPlateau(hero.getPosition()).readEvent());
         this.plateau.getContenuPlateau(hero.getPosition()).actionEvent(hero, scanner);
-    }
-
-    /*----------------------------- génération aléatoire de nombres ------------------------------*/
-
-    public int getRandomInt(int entierMax) {
-        Random rand = new Random();
-        return rand.nextInt(entierMax);
     }
 
 

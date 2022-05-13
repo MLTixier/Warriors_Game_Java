@@ -3,9 +3,27 @@ package main;
 import exceptions.PourcentagesPlateauException;
 import exceptions.SortieJeuException;
 
-public class Main {
+import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
-    public Main(){
+public class Main /*extends JFrame*/ {
+
+    public Main() {
+        /*
+        super("Bienvenue dans le jeu des Warriors !");
+        WindowListener l = new WindowAdapter() {
+            public void windowClosing(WindowEvent e){
+                System.exit(0);
+            }
+        };
+
+        addWindowListener(l);
+        setSize(200,100);
+        setVisible(true);
+
+         */
     }
 
     public static void main(String[] args) throws SortieJeuException, PourcentagesPlateauException {

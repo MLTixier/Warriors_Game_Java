@@ -3,6 +3,7 @@ package main;
 import characters.*;
 import equipements.*;
 import exceptions.*;
+import main.random.RandomDe;
 
 import java.util.*;
 
@@ -32,7 +33,6 @@ public class Plateau {
             throw new PourcentagesPlateauException();
         }
         ajoutEvents();
-        //System.out.println(Arrays.toString(plateau));
         ImageDragon image = new ImageDragon();
         image.afficheDragon();
     }
@@ -78,7 +78,7 @@ public class Plateau {
     }
 
     public static int getRandomInt(int entierMax) {
-        Random rand = new Random();
+        java.util.Random rand = new java.util.Random();
         return rand.nextInt(entierMax);
     }
 
@@ -92,9 +92,9 @@ public class Plateau {
     }
 
     static int[] rand(int array[], int a) {
-        Random rd = new Random();
+        java.util.Random rand = new java.util.Random();
         for (int i = a - 1; i > 1; i--) {
-            int j = rd.nextInt(i + 1);
+            int j = rand.nextInt(i + 1);
             int temp = array[i];
             array[i] = array[j];
             array[j] = temp;

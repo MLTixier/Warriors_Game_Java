@@ -1,4 +1,4 @@
-package main;
+package main.cases;
 
 import characters.Hero;
 import exceptions.SortieJeuException;

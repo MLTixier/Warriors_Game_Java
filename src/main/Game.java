@@ -3,11 +3,13 @@ package main;
 import characters.*;
 import exceptions.PourcentagesPlateauException;
 import exceptions.SortieJeuException;
+import main.plateau.FakePlateau;
+import main.plateau.Plateau;
+import main.plateau.VisualBoard;
 import main.random.De6Faces;
 import main.random.FakeDe;
 import main.random.RandomDe;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class Game {
@@ -28,9 +30,9 @@ public class Game {
     public Game(Scanner scanner, Hero hero) throws SortieJeuException, PourcentagesPlateauException {
         this.scanner = scanner;
         this.hero = hero;
-        this.plateau = new Plateau();
+        this.plateau = new FakePlateau();
         this.visualBoard = new VisualBoard(plateau);
-        this.de = new De6Faces();
+        this.de = new FakeDe();
         System.out.println("Plateau de jeu créé !");
         visualBoard.afficherPlateauCache();
         System.out.println("les points signifient case vide, les coeurs un équipement, les X un monstre.");
@@ -110,5 +112,4 @@ public class Game {
             Main main = new Main();
         }
     }
-
 }

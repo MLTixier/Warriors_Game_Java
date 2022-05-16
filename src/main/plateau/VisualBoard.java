@@ -1,4 +1,6 @@
-package main;
+package main.plateau;
+
+import main.plateau.Plateau;
 
 public class VisualBoard {
 

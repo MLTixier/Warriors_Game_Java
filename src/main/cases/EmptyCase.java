@@ -1,6 +1,7 @@
-package main;
+package main.cases;
 
 import characters.Hero;
+import main.cases.Case;
 
 import java.util.Scanner;
 

@@ -1,7 +1,8 @@
-package main;
+package main.cases;
 
 import characters.Hero;
 import equipements.Potion;
+import main.cases.Case;
 
 import java.util.Scanner;
 

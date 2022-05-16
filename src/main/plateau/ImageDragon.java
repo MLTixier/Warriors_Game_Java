@@ -1,4 +1,4 @@
-package main;
+package main.plateau;
 
 import java.awt.*;
 

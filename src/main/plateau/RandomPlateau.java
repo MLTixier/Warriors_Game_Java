@@ -1,49 +1,39 @@
-package main;
+package main.plateau;
 
 import characters.*;
 import equipements.*;
 import exceptions.*;
-import main.random.RandomDe;
+import main.cases.*;
 
 import java.util.*;
 
 import static java.util.Map.entry;
 
-public class Plateau {
+public class RandomPlateau extends Plateau {
 
-    private Map<String, Integer> listeEvents = Map.ofEntries(
-            entry("characters.Dragon", 5),
-            entry("characters.Sorcier", 15),
-            entry("characters.Gobelin", 15),
-            entry("equipements.Invisibilite", 3),
-            entry("equipements.BouleDeFeu", 4),
-            entry("equipements.Eclair", 1),
-            entry("equipements.Arc", 3),
-            entry("equipements.Epee", 4),
-            entry("equipements.Massue", 1),
-            entry("equipements.PotionSimple", 5),
-            entry("equipements.GrandePotion", 3),
-            entry("main.EmptyCase", 6)
-    );
-
-    private Case[] plateau = new Case[65];
-
-    public Plateau() throws PourcentagesPlateauException {
+    public RandomPlateau() throws PourcentagesPlateauException {
+        super();
+        this.listeEvents = Map.ofEntries(
+                entry("characters.Dragon", 5),
+                entry("characters.Sorcier", 15),
+                entry("characters.Gobelin", 15),
+                entry("equipements.Invisibilite", 3),
+                entry("equipements.BouleDeFeu", 4),
+                entry("equipements.Eclair", 1),
+                entry("equipements.Arc", 3),
+                entry("equipements.Epee", 4),
+                entry("equipements.Massue", 1),
+                entry("equipements.PotionSimple", 5),
+                entry("equipements.GrandePotion", 3),
+                entry("main.cases.EmptyCase", 6)
+        );
+        this.plateau = new Case[65];
         if (!pourcentagesPlateauOK()) {
             throw new PourcentagesPlateauException();
         }
         ajoutEvents();
         ImageDragon image = new ImageDragon();
         image.afficheDragon();
-    }
-
-    public Case[] getPlateau() {
-        return plateau;
-    }
-
-    public Case getContenuPlateau(int indice) {
-        Case contenuCase = (Case) this.plateau[indice];
-        return contenuCase;
     }
 
     public void ajoutEvents() {
@@ -57,7 +47,7 @@ public class Plateau {
             for (int nbE = 0; nbE < nombreEvent; nbE++) {
                 try {
                     Class classe = Class.forName(typeEvent);
-                    if (typeEvent.equals("main.EmptyCase")) {
+                    if (typeEvent.equals("main.cases.EmptyCase")) {
                         this.plateau[randomCases[i]] = new EmptyCase();
                     } else if (typeEvent.equals("characters.Dragon") || typeEvent.equals("characters.Sorcier") || typeEvent.equals("characters.Gobelin")) {
                         Monster monster = (Monster) classe.getConstructor().newInstance();
@@ -75,11 +65,6 @@ public class Plateau {
                 }
             }
         }
-    }
-
-    public static int getRandomInt(int entierMax) {
-        java.util.Random rand = new java.util.Random();
-        return rand.nextInt(entierMax);
     }
 
     public int[] getTableauRandom(int entierMax) {

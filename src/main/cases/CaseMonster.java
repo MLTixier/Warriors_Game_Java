@@ -1,8 +1,9 @@
-package main;
+package main.cases;
 
 import characters.Hero;
 import characters.Monster;
 import exceptions.SortieJeuException;
+import main.cases.Case;
 import main.random.De6Faces;
 
 import java.util.Random;

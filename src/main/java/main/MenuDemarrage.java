@@ -3,12 +3,14 @@ package main;
 import characters.*;
 import exceptions.*;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class MenuDemarrage {
 
     public Scanner scanner;
     public Hero hero;
+    public BDD bdd;
 
     /**
      * constructeur pour la classe MenuDemarrage : créée un scanner et créée un héros.
@@ -17,14 +19,75 @@ public class MenuDemarrage {
      * @throws PourcentagesPlateauException
      */
 
-    public MenuDemarrage(Scanner scanner) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
-        this.scanner = scanner;
-        this.creerPersonnage();
+    public MenuDemarrage() throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
+        this.bdd = new BDD();
+        this.scanner = new Scanner(System.in);
+        questionsMenu1();
     }
 
-    public MenuDemarrage() throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
-        this.scanner = new Scanner(System.in);
-        this.creerPersonnage();
+    public void questionsMenu1() throws PourcentagesPlateauException, FinJeuException, SortieJeuException {
+        System.out.println("Que souhaitez-vous faire ?");
+        String menu1Choice = "";
+        while (!(menu1Choice.equals("a") || menu1Choice.equals("c") || menu1Choice.equals("e"))) {
+            System.out.println("Pour créer votre personnage, tapez c");
+            System.out.println("Pour afficher les personnages pré-enregistrées, tapez a");
+            System.out.println("Pour choisir un des personnages pré-enregistrés, tapez e");
+            menu1Choice = scanner.nextLine();
+        }
+        if (menu1Choice.equals("a")) {
+            afficherHerosDB();
+            questionsMenu1();
+        }
+        if (menu1Choice.equals("c")) {
+            creerPersonnage();
+        }
+        if (menu1Choice.equals("e")) {
+            selectionnerHerosDB();
+        }
+    }
+
+    public void afficherHerosDB() {
+        System.out.println("les héros pré-enregistrés sont les suivants : ");
+        System.out.println("");
+        List<Hero> listeHeroes = bdd.requeteGetHeroes();
+        int nbHeroes = listeHeroes.size();
+        for (int i = 0; i < nbHeroes; i++) {
+            System.out.print(i);
+            System.out.print(" : ");
+            System.out.println(listeHeroes.get(i));
+        }
+        System.out.println("");
+    }
+
+    public void selectionnerHerosDB() throws PourcentagesPlateauException, FinJeuException, SortieJeuException {
+        afficherHerosDB();
+        int nbHeroes = bdd.requeteGetHeroes().size();
+        System.out.println("Quel héros souhaitez-vous prendre ?");
+        String choice = "";
+        while (!(choiceInfNbHeroes(choice, nbHeroes) || choice.equals("q"))) {
+            System.out.println("Entrez le numéro du héros souhaité ou tapez q pour revenir au menu principal");
+            choice = scanner.nextLine();
+        }
+        if (choice.equals("q")) {
+            questionsMenu1();
+        } else {
+            this.hero = bdd.requeteGetHeroes().get(Integer.valueOf(choice));
+            questionsMenu2();
+        }
+    }
+
+
+    public boolean choiceInfNbHeroes(String choice, int nbHeroes) {
+        boolean rst = false;
+        if (choice.equals("")) {
+        } else {
+            for (int i = 0; i < nbHeroes; i++) {
+                if (Integer.valueOf(choice)==i) {
+                    rst = true;
+                }
+            }
+        }
+        return rst;
     }
 
     /**
@@ -74,7 +137,7 @@ public class MenuDemarrage {
             modifierPersonnage();
         }
         if (menu2Choice.equals("j")) {
-                jouer();
+            jouer();
         }
     }
 

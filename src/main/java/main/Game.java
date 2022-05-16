@@ -110,7 +110,7 @@ public class Game {
         if (choixQuitter.equals("o")) {
             throw new FinJeuException();
         } else if (choixQuitter.equals("r")) {
-            MenuDemarrage menuDemarrage = new MenuDemarrage(scanner);
+            MenuDemarrage menuDemarrage = new MenuDemarrage();
         }
     }
 }

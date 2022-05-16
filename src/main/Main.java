@@ -21,7 +21,7 @@ public class Main extends JFrame {
         };
 
         addWindowListener(l);
-        setSize(50, 50);
+        setSize(500, 500);
         setVisible(true);
 
     }

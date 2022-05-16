@@ -1,6 +1,7 @@
 package main.plateau;
 
 import characters.*;
+import com.sun.management.UnixOperatingSystemMXBean;
 import equipements.*;
 import exceptions.*;
 import main.cases.*;
@@ -11,23 +12,41 @@ import static java.util.Map.entry;
 
 public class RandomPlateau extends Plateau {
 
-    public RandomPlateau() throws PourcentagesPlateauException {
+    public RandomPlateau(int nombreCasesPlateau, String difficulte) throws PourcentagesPlateauException {
         super();
-        this.listeEvents = Map.ofEntries(
-                entry("characters.Dragon", 5),
-                entry("characters.Sorcier", 15),
-                entry("characters.Gobelin", 15),
-                entry("equipements.Invisibilite", 3),
-                entry("equipements.BouleDeFeu", 4),
-                entry("equipements.Eclair", 1),
-                entry("equipements.Arc", 3),
-                entry("equipements.Epee", 4),
-                entry("equipements.Massue", 1),
-                entry("equipements.PotionSimple", 5),
-                entry("equipements.GrandePotion", 3),
-                entry("main.cases.EmptyCase", 6)
-        );
-        this.plateau = new Case[65];
+        if (difficulte.equals("dur")){
+            this.listeEvents = Map.ofEntries(
+                    entry("characters.Dragon", 5),
+                    entry("characters.Sorcier", 15),
+                    entry("characters.Gobelin", 15),
+                    entry("equipements.Invisibilite", 3),
+                    entry("equipements.BouleDeFeu", 4),
+                    entry("equipements.Eclair", 1),
+                    entry("equipements.Arc", 3),
+                    entry("equipements.Epee", 4),
+                    entry("equipements.Massue", 1),
+                    entry("equipements.PotionSimple", 5),
+                    entry("equipements.GrandePotion", 3),
+                    entry("main.cases.EmptyCase", 6)
+            );
+        } else {
+            this.listeEvents = Map.ofEntries(
+                    entry("characters.Dragon", 2),
+                    entry("characters.Sorcier", 11),
+                    entry("characters.Gobelin", 15),
+                    entry("equipements.Invisibilite", 3),
+                    entry("equipements.BouleDeFeu", 4),
+                    entry("equipements.Eclair", 3),
+                    entry("equipements.Arc", 3),
+                    entry("equipements.Epee", 4),
+                    entry("equipements.Massue", 3),
+                    entry("equipements.PotionSimple", 8),
+                    entry("equipements.GrandePotion", 3),
+                    entry("main.cases.EmptyCase", 6)
+            );
+        }
+
+        this.plateau = new Case[nombreCasesPlateau];
         if (!pourcentagesPlateauOK()) {
             throw new PourcentagesPlateauException();
         }
@@ -38,7 +57,7 @@ public class RandomPlateau extends Plateau {
 
     public void ajoutEvents() {
         //creation de n events pour chaque ligne du tableau listeEvents :
-        int[] randomCases = getTableauRandom(65);
+        int[] randomCases = getTableauRandom(this.getPlateau().length);
         this.plateau[randomCases[0]] = new EmptyCase();
         int i = 1;
         for (Map.Entry<String, Integer> events : listeEvents.entrySet()) {
@@ -98,7 +117,7 @@ public class RandomPlateau extends Plateau {
         for (Integer value : listeEvents.values()) {
             somme += value;
         }
-        return (somme == 65);
+        return (somme == this.getPlateau().length);
     }
 
 }

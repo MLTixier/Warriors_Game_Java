@@ -8,9 +8,10 @@ public class VisualBoard {
     private char[] visualBoardCache;
 
     public VisualBoard(Plateau plateau) {
-        this.visualBoardFinal = new char[65];
-        this.visualBoardCache = new char[65];
-        for (int i = 0; i < 65; i++) {
+        int nombreCasesPlateau = plateau.getPlateau().length;
+        this.visualBoardFinal = new char[nombreCasesPlateau];
+        this.visualBoardCache = new char[nombreCasesPlateau];
+        for (int i = 0; i < nombreCasesPlateau; i++) {
             visualBoardFinal[i] = '\u2219';
             String stringContent = plateau.getContenuPlateau(i).getStringContent();
             if (stringContent.equals("monstre")) {

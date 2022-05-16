@@ -1,0 +1,7 @@
+Bienvenue dans le Jeu Donjons et Dragons
+
+Pour démarrer la partie, paramétrez le jeu dans la classe Game :
+- paramétrez le dé (ligne 35) : choisir entre fakeDe ou De6/8Faces.
+- paramétrez le plateau (ligne 33) : choisir entre fakePlateau ou randomPlateau("dur" ou "facile").
+Pour mémoire, le fakeDe et le fakePlateau fonctionnent ensemble.
+Ils font avancer par défaut le personnage de 5 en 5 cases, en le faisant "rencontrer" un événement unique à chaque fois.

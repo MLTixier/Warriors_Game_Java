@@ -12,7 +12,7 @@ import static java.util.Map.entry;
 
 public class FakePlateau extends Plateau {
 
-    public FakePlateau() throws PourcentagesPlateauException {
+    public FakePlateau(int nombreCasesPlateau) {
         super();
         int espace = 5 ;
         this.listeEvents = Map.ofEntries(
@@ -28,7 +28,7 @@ public class FakePlateau extends Plateau {
                 entry("equipements.BouleDeFeu", espace*10),
                 entry("characters.Dragon", espace*11)
                 );
-        this.plateau = new Case[65];
+        this.plateau = new Case[nombreCasesPlateau];
         ajoutEvents();
         remplissageCasesEmpty();
         ImageDragon image = new ImageDragon();

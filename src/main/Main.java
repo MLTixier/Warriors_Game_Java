@@ -1,5 +1,6 @@
 package main;
 
+import exceptions.FinJeuException;
 import exceptions.PourcentagesPlateauException;
 import exceptions.SortieJeuException;
 
@@ -14,13 +15,13 @@ public class Main extends JFrame {
 
         super("Bienvenue dans le jeu des Warriors !");
         WindowListener l = new WindowAdapter() {
-            public void windowClosing(WindowEvent e){
+            public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }
         };
 
         addWindowListener(l);
-        setSize(50,50);
+        setSize(50, 50);
         setVisible(true);
 
     }
@@ -28,7 +29,12 @@ public class Main extends JFrame {
     public static void main(String[] args) throws SortieJeuException, PourcentagesPlateauException {
         //System.out.println("Bienvenue dans le jeu des Warriors !");
         JFrame frame = new Main();
-        MenuDemarrage menuDemarrage = new MenuDemarrage();
+        try {
+            MenuDemarrage menuDemarrage = new MenuDemarrage();
+        } catch (
+                FinJeuException finJeuException) {
+            System.out.println("Au revoir et merci d'avoir joué avec nous !");
+        }
     }
 
 }

@@ -6,4 +6,7 @@ public class Wizzard extends Hero {
         super(myName, 3, 8, 15, 16);
     }
 
+    public Wizzard(String myName, int myAttack, int myLife, int maxAttack, int maxLife) {
+        super(myName, myAttack, myLife, maxAttack, maxLife);
+    }
 }

@@ -14,6 +14,12 @@ public class Main {
     public Main() {
     }
 
+    /**
+     * méthode main qui est lue au démarrage du programme. lance le menu démarrage et catch l'exception fin du jeu.
+     * @param args
+     * @throws SortieJeuException
+     * @throws PourcentagesPlateauException
+     */
     public static void main(String[] args) throws SortieJeuException, PourcentagesPlateauException {
         System.out.println("Bienvenue dans le jeu des Warriors !");
         try {

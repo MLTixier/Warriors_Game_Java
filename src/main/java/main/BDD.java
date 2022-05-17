@@ -2,6 +2,7 @@ package main;
 
 import characters.Hero;
 
+import java.lang.reflect.Constructor;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,8 +11,10 @@ public class BDD {
 
     Connection connexion;
 
+    /**
+     * constructeur permettant d'établir une connexion à la BDD.
+     */
     public BDD() {
-        //connexion à la BDD :
 
         // Chargement du driver :
         try {
@@ -27,20 +30,25 @@ public class BDD {
         }
     }
 
+    /**
+     * méthode pour effectuer une requête sur la BDD, permettant d'afficher les héros de la table heroes
+     * @return
+     */
     public List<Hero> requeteGetHeroes() {
-        //requte pour afficher les héros de la table heroes :
         List<Hero> listeHeroes = new ArrayList<Hero>();
         try {
             Statement stmt = connexion.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM heroes;");
-            //System.out.println("Connected");
             while (rs.next()) {
                 String name = rs.getString("name");
+                String type = rs.getString("type");
                 int atk = rs.getInt("atk");
                 int life = rs.getInt("life");
                 int maxAtk = rs.getInt("maxAtk");
                 int maxLife = rs.getInt("maxLife");
-                Hero hero = new Hero(name, atk, life, maxAtk, maxLife);
+                Class classe = Class.forName(type);
+                Constructor cons = classe.getConstructor(String.class, int.class, int.class, int.class, int.class);
+                Hero hero = (Hero) cons.newInstance(name, atk, life, maxAtk, maxLife);
                 listeHeroes.add(hero);
             }
         } catch (Exception e) {
@@ -49,12 +57,16 @@ public class BDD {
         return listeHeroes;
     }
 
+    /**
+     * méthode pour effectuer une requête sur la BDD, permettant d'ajouter un héros à la table heroes
+     * @return
+     */
     public void requetePostHero(Hero hero) {
-        //requête pour ajouter un héros à la table heroes :
         try {
-            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO heroes(name, atk, life, maxAtk, maxLife) VALUES(?,?,?,?,?);");
+            PreparedStatement preparedStatement = connexion.prepareStatement("INSERT INTO heroes(name, type, atk, life, maxAtk, maxLife) VALUES(?,?,?,?,?,?);");
 
             preparedStatement.setString(1, hero.getName());
+            preparedStatement.setString(2, hero.getClass().getName());
             preparedStatement.setInt(2, hero.getAttack());
             preparedStatement.setInt(3, hero.getLife());
             preparedStatement.setInt(4, hero.getMaxAttack());

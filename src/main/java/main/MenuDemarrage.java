@@ -25,6 +25,12 @@ public class MenuDemarrage {
         questionsMenu1();
     }
 
+    /**
+     * méthode pour créer un 1er menu de choix utilisateur : créer, afficher ou sélectionner un personnage.
+     * @throws PourcentagesPlateauException
+     * @throws FinJeuException
+     * @throws SortieJeuException
+     */
     public void questionsMenu1() throws PourcentagesPlateauException, FinJeuException, SortieJeuException {
         System.out.println("Que souhaitez-vous faire ?");
         String menu1Choice = "";
@@ -46,6 +52,9 @@ public class MenuDemarrage {
         }
     }
 
+    /**
+     * méthode pour afficher les héros pré-enregistrés issus de la table heroes de la BDD.
+     */
     public void afficherHerosDB() {
         System.out.println("les héros pré-enregistrés sont les suivants : ");
         System.out.println("");
@@ -59,6 +68,12 @@ public class MenuDemarrage {
         System.out.println("");
     }
 
+    /**
+     * méthode qui affiche les héros pré-enregistrés de la BDD et demande à l'utilisateur d'ne sélectionner un, qui devient alors le héros du jeu.
+     * @throws PourcentagesPlateauException
+     * @throws FinJeuException
+     * @throws SortieJeuException
+     */
     public void selectionnerHerosDB() throws PourcentagesPlateauException, FinJeuException, SortieJeuException {
         afficherHerosDB();
         int nbHeroes = bdd.requeteGetHeroes().size();
@@ -76,10 +91,17 @@ public class MenuDemarrage {
         }
     }
 
-
+    /**
+     * méthode utilisée pour vérifier si la sélection effectuée par l'utilisateur dans la méthode selectionnerHerosBD correspond bien à un numéro de héros de la BDD.
+     * @param choice
+     * @param nbHeroes
+     * @return
+     */
     public boolean choiceInfNbHeroes(String choice, int nbHeroes) {
         boolean rst = false;
-        if (choice.equals("")) {
+        if (choice.equals("")){
+        //verif si choice n'est pas numerique :
+        }else if (!choice.matches("[+-]?\\d*(\\.\\d+)?")) {
         } else {
             for (int i = 0; i < nbHeroes; i++) {
                 if (Integer.valueOf(choice)==i) {
@@ -181,7 +203,7 @@ public class MenuDemarrage {
      * @throws PourcentagesPlateauException
      */
     public void jouer() throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
-        Game game = new Game(scanner, hero, "dur", 65);
+        Game game = new Game(scanner, hero, "dur", 65, bdd);
     }
 
 }

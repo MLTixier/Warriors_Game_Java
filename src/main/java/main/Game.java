@@ -4,7 +4,9 @@ import characters.*;
 import exceptions.*;
 import main.plateau.FakePlateau;
 import main.plateau.Plateau;
+import main.plateau.RandomPlateau;
 import main.plateau.VisualBoard;
+import main.random.De6Faces;
 import main.random.FakeDe;
 import main.random.RandomDe;
 
@@ -17,21 +19,32 @@ public class Game {
     private Plateau plateau;
     private VisualBoard visualBoard;
     private RandomDe de;
+    private BDD bdd;
 
     /**
      * constructeur de la classe Game pour récupérer le scanner et le héros créés au menu démarrage, et instancier un plateau, un dé, une position du héros, etc.
      *
-     * @param scanner scanner
-     * @param hero    héros
+     * @param scanner            scanner
+     * @param hero               héros
+     * @param bdd                bdd
+     * @param difficulte         difficulté souhaitée du jeu : "dur" ou plus facile
+     * @param nombreCasesPlateau nombre de cases souhaitées pour le plateau
      * @throws SortieJeuException
      * @throws PourcentagesPlateauException
      */
-    public Game(Scanner scanner, Hero hero, String difficulte, int nombreCasesPlateau) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
+    public Game(Scanner scanner, Hero hero, String difficulte, int nombreCasesPlateau, BDD bdd) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
         this.scanner = scanner;
         this.hero = hero;
+        this.bdd = bdd;
+        //lancement d'un "fake" plateau :
         this.plateau = new FakePlateau(nombreCasesPlateau);
+        //ou lancement d'un plateau aléatoire :
+        //this.plateau = new RandomPlateau(nombreCasesPlateau, difficulte);
         this.visualBoard = new VisualBoard(plateau);
+        //lancement d'un "fake" Dé :
         this.de = new FakeDe();
+        //ou lancement d'un dé aléatoire à 6 faces :
+        //this.de = new De6Faces();
         System.out.println("Plateau de jeu créé !");
         visualBoard.afficherPlateauCache();
         System.out.println("les points signifient case vide, les coeurs un équipement, les X un monstre.");
@@ -80,7 +93,7 @@ public class Game {
                 quitterJeu();
             }
         } else if (decision.equals("q")) {
-                quitterJeu();
+            quitterJeu();
         } else if (decision.equals("a")) {
             System.out.println(hero);
         }
@@ -108,9 +121,27 @@ public class Game {
             choixQuitter = scanner.nextLine();
         }
         if (choixQuitter.equals("o")) {
+            menuEnregistrerPartie();
             throw new FinJeuException();
         } else if (choixQuitter.equals("r")) {
             MenuDemarrage menuDemarrage = new MenuDemarrage();
         }
     }
+
+    /**
+     * méthode demandant à l'utilisateur de sauvegarder des éléments d'une partie avant de quitter.
+     */
+    private void menuEnregistrerPartie() {
+        System.out.println("Voulez-vous enregistrer votre héros avant de quitter le jeu ?");
+        String choix = "";
+        while (!(choix.equals("o") || choix.equals("n"))) {
+            System.out.println("Tapez o si oui, tapez n pour quitter sans enregistrer");
+            choix = scanner.nextLine();
+        }
+        if (choix.equals("o")) {
+            bdd.requetePostHero(hero);
+            System.out.println("Votre personnage a bien été enregistré.");
+        }
+    }
+
 }

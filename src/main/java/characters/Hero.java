@@ -27,6 +27,14 @@ public class Hero extends Character {
         this.listeEquipements =  new Equipement[2];
     }
 
+    public Hero() {
+        super();
+        this.fuyard = false ;
+        this.position = 0 ;
+        this.previousPosition = 0 ;
+        this.listeEquipements =  new Equipement[2];
+    }
+
     /*-------------------------------------------- getter et setter -------------------------------------------*/
 
 

@@ -1,4 +1,4 @@
-package main.random;
+package main.des;
 
 public class De6Faces implements RandomDe {
 

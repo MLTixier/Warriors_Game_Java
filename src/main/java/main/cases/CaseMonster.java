@@ -3,9 +3,8 @@ package main.cases;
 import characters.Hero;
 import characters.Monster;
 import exceptions.SortieJeuException;
-import main.random.De6Faces;
+import main.des.De6Faces;
 
-import java.util.Random;
 import java.util.Scanner;
 
 public class CaseMonster extends Case {
@@ -74,11 +73,6 @@ public class CaseMonster extends Case {
         int nbCases = de.valeur();
         hero.goesBack(nbCases);
         System.out.println("vous avez reculé de " + nbCases + " cases.");
-    }
-
-    public int getRandomInt(int entierMax) {
-        Random rand = new Random();
-        return rand.nextInt(entierMax);
     }
 
 }

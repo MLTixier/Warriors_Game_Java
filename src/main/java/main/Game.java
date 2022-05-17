@@ -4,11 +4,9 @@ import characters.*;
 import exceptions.*;
 import main.plateau.FakePlateau;
 import main.plateau.Plateau;
-import main.plateau.RandomPlateau;
 import main.plateau.VisualBoard;
-import main.random.De6Faces;
-import main.random.FakeDe;
-import main.random.RandomDe;
+import main.des.FakeDe;
+import main.des.RandomDe;
 
 import java.util.Scanner;
 

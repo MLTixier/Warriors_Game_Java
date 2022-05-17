@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class CasePotion extends Case {
 
     Potion potion;
-    Scanner scanner ;
 
     public CasePotion(Potion potion) {
         super();
@@ -27,7 +26,6 @@ public class CasePotion extends Case {
 
     @Override
     public void actionEvent(Hero hero, Scanner scanner) {
-        this.scanner = scanner;
         if (potion.getExists()) {
             hero.modifyLife(potion.getLifeGain());
             potion.setExists(false);

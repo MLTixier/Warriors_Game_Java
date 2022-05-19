@@ -17,6 +17,8 @@ public class MenuDemarrage {
     private DB db;
     private HeroDAO heroDAO ;
     private String dbExists ;
+    private String diceChoice;
+    private String gameDifficulty;
 
     /**
      * constructeur pour la classe MenuDemarrage : créée un scanner et créée un héros.
@@ -25,7 +27,7 @@ public class MenuDemarrage {
      * @throws PourcentagesPlateauException
      */
 
-    public MenuDemarrage(String dbExists) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
+    public MenuDemarrage(String dbExists, String diceChoice, String gameDifficulty) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
         if (dbExists.equals("true")){
             this.db = new RealDB();
         } else {
@@ -33,6 +35,8 @@ public class MenuDemarrage {
         }
         this.heroDAO = new HeroDAO(db.getConnexion());
         this.dbExists = dbExists;
+        this.diceChoice = diceChoice;
+        this.gameDifficulty=gameDifficulty;
         this.scanner = new Scanner(System.in);
         questionsMenu1();
     }
@@ -48,7 +52,9 @@ public class MenuDemarrage {
         String menu1Choice = "";
         while (!(menu1Choice.equals("c") || menu1Choice.equals("a"))) {
             System.out.println("Pour créer votre personnage, tapez c");
-            System.out.println("Pour afficher et choisir un des personnages pré-enregistrés, tapez a");
+            if (dbExists.equals("true")) {
+                System.out.println("Pour afficher et choisir un des personnages pré-enregistrés, tapez a");
+            }
             menu1Choice = scanner.nextLine();
         }
         if (menu1Choice.equals("c")) {
@@ -58,7 +64,8 @@ public class MenuDemarrage {
             if (dbExists.equals("true")){
                 selectionnerHerosDB();
             } else {
-                System.out.println("La base de données n'est pas accesible.");
+                System.out.println("La réponse donnée est invalide.");
+                questionsMenu1();
             }
         }
     }
@@ -214,7 +221,7 @@ public class MenuDemarrage {
      * @throws PourcentagesPlateauException
      */
     public void jouer() throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
-        Game game = new Game(scanner, hero, "dur", 65, db, this);
+        Game game = new Game(scanner, hero, gameDifficulty, 65, db, this, diceChoice);
     }
 
 
@@ -232,7 +239,7 @@ public class MenuDemarrage {
             menuEnregistrerPartie();
             throw new FinJeuException();
         } else if (choixQuitter.equals("r")) {
-            MenuDemarrage menuDemarrage = new MenuDemarrage(dbExists);
+            MenuDemarrage menuDemarrage = new MenuDemarrage(dbExists, diceChoice, gameDifficulty);
         }
     }
 

@@ -4,8 +4,10 @@ import characters.*;
 import exceptions.*;
 import main.BDD.DB;
 import main.des.De6Faces;
+import main.des.De8Faces;
 import main.plateau.FakePlateau;
 import main.plateau.Plateau;
+import main.plateau.RandomPlateau;
 import main.plateau.VisualBoard;
 import main.des.FakeDe;
 import main.des.RandomDe;
@@ -33,20 +35,24 @@ public class Game {
      * @throws SortieJeuException
      * @throws PourcentagesPlateauException
      */
-    public Game(Scanner scanner, Hero hero, String difficulte, int nombreCasesPlateau, DB db, MenuDemarrage menuDemarrage) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
+    public Game(Scanner scanner, Hero hero, String gameDifficulty, int nombreCasesPlateau, DB db, MenuDemarrage menuDemarrage, String diceChoice) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
         this.menuDemarrage = menuDemarrage;
         this.scanner = scanner;
         this.hero = hero;
         this.db = db;
-        //lancement d'un "fake" plateau :
-        this.plateau = new FakePlateau(nombreCasesPlateau, this);
-        //ou lancement d'un plateau aléatoire :
-        //this.plateau = new RandomPlateau(nombreCasesPlateau, difficulte);
+       if (gameDifficulty.equals("fake")){
+            this.plateau = new FakePlateau(nombreCasesPlateau, this);
+        } else if  (gameDifficulty.equals("dur")) {
+            this.plateau = new RandomPlateau(nombreCasesPlateau, gameDifficulty, this);
+        }
         this.visualBoard = new VisualBoard(plateau);
-        //lancement d'un "fake" Dé :
+       if (diceChoice.equals("fake")){
         this.de = new FakeDe();
-        //ou lancement d'un dé aléatoire à 6 faces :
-        //this.de = new De6Faces();
+       } else if (diceChoice.equals("de8Faces")){
+           this.de = new De8Faces();
+       } else {
+           this.de = new De6Faces();
+       }
         System.out.println("Plateau de jeu créé !");
         visualBoard.afficherPlateauCache();
         System.out.println("les points signifient case vide, les coeurs un équipement, les X un monstre.");
@@ -113,7 +119,6 @@ public class Game {
     }
 
     public void fuite() throws SortieJeuException {
-        De6Faces de = new De6Faces();
         int nbCases = de.valeur();
         hero.goesBack(nbCases);
         System.out.println("vous avez reculé de " + nbCases + " cases.");

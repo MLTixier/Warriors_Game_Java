@@ -15,8 +15,8 @@ public class MenuDemarrage {
     private Scanner scanner;
     private Hero hero;
     private DB db;
-    private HeroDAO heroDAO ;
-    private String dbExists ;
+    private HeroDAO heroDAO;
+    private String dbExists;
     private String diceChoice;
     private String gameDifficulty;
 
@@ -28,7 +28,7 @@ public class MenuDemarrage {
      */
 
     public MenuDemarrage(String dbExists, String diceChoice, String gameDifficulty) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
-        if (dbExists.equals("true")){
+        if (dbExists.equals("true")) {
             this.db = new RealDB();
         } else {
             this.db = new FakeDB();
@@ -36,13 +36,14 @@ public class MenuDemarrage {
         this.heroDAO = new HeroDAO(db.getConnexion());
         this.dbExists = dbExists;
         this.diceChoice = diceChoice;
-        this.gameDifficulty=gameDifficulty;
+        this.gameDifficulty = gameDifficulty;
         this.scanner = new Scanner(System.in);
         questionsMenu1();
     }
 
     /**
      * méthode pour créer un 1er menu de choix utilisateur : créer, afficher ou sélectionner un personnage.
+     *
      * @throws PourcentagesPlateauException
      * @throws FinJeuException
      * @throws SortieJeuException
@@ -61,7 +62,7 @@ public class MenuDemarrage {
             creerPersonnage();
         }
         if (menu1Choice.equals("a")) {
-            if (dbExists.equals("true")){
+            if (dbExists.equals("true")) {
                 selectionnerHerosDB();
             } else {
                 System.out.println("La réponse donnée est invalide.");
@@ -88,6 +89,7 @@ public class MenuDemarrage {
 
     /**
      * méthode qui affiche les héros pré-enregistrés de la BDD et demande à l'utilisateur d'ne sélectionner un, qui devient alors le héros du jeu.
+     *
      * @throws PourcentagesPlateauException
      * @throws FinJeuException
      * @throws SortieJeuException
@@ -111,18 +113,19 @@ public class MenuDemarrage {
 
     /**
      * méthode utilisée pour vérifier si la sélection effectuée par l'utilisateur dans la méthode selectionnerHerosBD correspond bien à un numéro de héros de la BDD.
+     *
      * @param choice
      * @param nbHeroes
      * @return
      */
     public boolean choiceInfNbHeroes(String choice, int nbHeroes) {
         boolean rst = false;
-        if (choice.equals("")){
-        //verif si choice n'est pas numerique :
-        }else if (!choice.matches("[+-]?\\d*(\\.\\d+)?")) {
+        if (choice.equals("")) {
+            //verif si choice n'est pas numerique :
+        } else if (!choice.matches("[+-]?\\d*(\\.\\d+)?")) {
         } else {
             for (int i = 0; i < nbHeroes; i++) {
-                if (Integer.valueOf(choice)==i) {
+                if (Integer.valueOf(choice) == i) {
                     rst = true;
                 }
             }
@@ -236,7 +239,9 @@ public class MenuDemarrage {
             choixQuitter = scanner.nextLine();
         }
         if (choixQuitter.equals("o")) {
-            menuEnregistrerPartie();
+            if (dbExists.equals("true")) {
+                menuEnregistrerPartie();
+            }
             throw new FinJeuException();
         } else if (choixQuitter.equals("r")) {
             MenuDemarrage menuDemarrage = new MenuDemarrage(dbExists, diceChoice, gameDifficulty);
@@ -254,14 +259,9 @@ public class MenuDemarrage {
             choix = scanner.nextLine();
         }
         if (choix.equals("o")) {
-            if (dbExists.equals("true")){
-                heroDAO.post(hero);
-                System.out.println("Votre personnage a bien été enregistré.");
-            } else {
-                System.out.println("La base de données n'est pas accesible.");
-            }
+            heroDAO.post(hero);
+            System.out.println("Votre personnage a bien été enregistré.");
         }
     }
-
 
 }

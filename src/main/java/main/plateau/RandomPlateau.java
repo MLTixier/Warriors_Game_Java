@@ -13,9 +13,9 @@ import static java.util.Map.entry;
 
 public class RandomPlateau extends Plateau {
 
-    public RandomPlateau(int nombreCasesPlateau, String difficulte, Game game) throws PourcentagesPlateauException {
+    public RandomPlateau(int nombreCasesPlateau, String gameDifficulty, Game game) throws PourcentagesPlateauException {
         super(game);
-        if (difficulte.equals("dur")){
+        if (gameDifficulty.equals("dur")){
             this.listeEvents = Map.ofEntries(
                     entry("characters.Dragon", 5),
                     entry("characters.Sorcier", 15),
@@ -33,8 +33,8 @@ public class RandomPlateau extends Plateau {
         } else {
             this.listeEvents = Map.ofEntries(
                     entry("characters.Dragon", 2),
-                    entry("characters.Sorcier", 11),
-                    entry("characters.Gobelin", 15),
+                    entry("characters.Sorcier", 10),
+                    entry("characters.Gobelin", 10),
                     entry("equipements.Invisibilite", 3),
                     entry("equipements.BouleDeFeu", 4),
                     entry("equipements.Eclair", 3),
@@ -43,7 +43,7 @@ public class RandomPlateau extends Plateau {
                     entry("equipements.Massue", 3),
                     entry("equipements.PotionSimple", 8),
                     entry("equipements.GrandePotion", 3),
-                    entry("main.cases.EmptyCase", 6)
+                    entry("main.cases.EmptyCase", 12)
             );
         }
 

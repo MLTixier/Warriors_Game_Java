@@ -42,7 +42,7 @@ public class Game {
         this.db = db;
        if (gameDifficulty.equals("fake")){
             this.plateau = new FakePlateau(nombreCasesPlateau, this);
-        } else if  (gameDifficulty.equals("dur")) {
+        } else {
             this.plateau = new RandomPlateau(nombreCasesPlateau, gameDifficulty, this);
         }
         this.visualBoard = new VisualBoard(plateau);

@@ -31,7 +31,7 @@ public class Main {
         } else {
             dbExists = "false";
             diceChoice = "de6Faces";
-            gameDifficulty = "facile";
+            gameDifficulty = "dur";
         }
         try {
             MenuDemarrage menuDemarrage = new MenuDemarrage(dbExists, diceChoice, gameDifficulty);

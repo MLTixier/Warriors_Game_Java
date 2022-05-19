@@ -3,6 +3,7 @@ package main.cases;
 import characters.Hero;
 import characters.Monster;
 import exceptions.SortieJeuException;
+import main.Game;
 import main.des.De6Faces;
 
 import java.util.Scanner;
@@ -11,10 +12,12 @@ public class CaseMonster extends Case {
 
     Monster monster;
     Scanner scanner;
+    Game game;
 
-    public CaseMonster(Monster monster) {
+    public CaseMonster(Monster monster, Game game) {
         super();
         this.monster = monster;
+        this.game = game;
         this.setStringContent("monstre");
     }
 
@@ -42,8 +45,8 @@ public class CaseMonster extends Case {
                 if (decision.equals("a")) {
                     engagementCombat(hero);
                 } else {
-                    fuite(hero);
                     hero.setFuyard(true);
+                    game.fuite();
                 }
             }
         } else {
@@ -66,13 +69,6 @@ public class CaseMonster extends Case {
             System.out.println("Le monstre vous a tué, vous avez perdu la partie.");
             hero.setExists(false);
         }
-    }
-
-    public void fuite(Hero hero) throws SortieJeuException {
-        De6Faces de = new De6Faces();
-        int nbCases = de.valeur();
-        hero.goesBack(nbCases);
-        System.out.println("vous avez reculé de " + nbCases + " cases.");
     }
 
 }

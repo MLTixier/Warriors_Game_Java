@@ -2,6 +2,8 @@ package main;
 
 import characters.*;
 import exceptions.*;
+import main.BDD.DB;
+import main.des.De6Faces;
 import main.plateau.FakePlateau;
 import main.plateau.Plateau;
 import main.plateau.VisualBoard;
@@ -17,25 +19,27 @@ public class Game {
     private Plateau plateau;
     private VisualBoard visualBoard;
     private RandomDe de;
-    private BDD bdd;
+    private DB db;
+    private MenuDemarrage menuDemarrage;
 
     /**
      * constructeur de la classe Game pour récupérer le scanner et le héros créés au menu démarrage, et instancier un plateau, un dé, une position du héros, etc.
      *
      * @param scanner            scanner
      * @param hero               héros
-     * @param bdd                bdd
+     * @param db                 bdd
      * @param difficulte         difficulté souhaitée du jeu : "dur" ou plus facile
      * @param nombreCasesPlateau nombre de cases souhaitées pour le plateau
      * @throws SortieJeuException
      * @throws PourcentagesPlateauException
      */
-    public Game(Scanner scanner, Hero hero, String difficulte, int nombreCasesPlateau, BDD bdd) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
+    public Game(Scanner scanner, Hero hero, String difficulte, int nombreCasesPlateau, DB db, MenuDemarrage menuDemarrage) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
+        this.menuDemarrage = menuDemarrage;
         this.scanner = scanner;
         this.hero = hero;
-        this.bdd = bdd;
+        this.db = db;
         //lancement d'un "fake" plateau :
-        this.plateau = new FakePlateau(nombreCasesPlateau);
+        this.plateau = new FakePlateau(nombreCasesPlateau, this);
         //ou lancement d'un plateau aléatoire :
         //this.plateau = new RandomPlateau(nombreCasesPlateau, difficulte);
         this.visualBoard = new VisualBoard(plateau);
@@ -88,10 +92,10 @@ public class Game {
             } catch (SortieJeuException sortieJeuException) {
                 System.out.println("vous êtes arrivé au bout du parcours, vous avez gagné !");
                 hero = null;
-                quitterJeu();
+                menuDemarrage.quitter();
             }
         } else if (decision.equals("q")) {
-            quitterJeu();
+            menuDemarrage.quitter();
         } else if (decision.equals("a")) {
             System.out.println(hero);
         }
@@ -108,38 +112,13 @@ public class Game {
         this.plateau.getContenuPlateau(hero.getPosition()).actionEvent(hero, scanner);
     }
 
-    /**
-     * méthode pour quitter le jeu
-     */
-    public void quitterJeu() throws PourcentagesPlateauException, SortieJeuException, FinJeuException {
-        System.out.println("Voulez-vous quitter le jeu définitivement ?");
-        String choixQuitter = "";
-        while (!(choixQuitter.equals("o") || choixQuitter.equals("r"))) {
-            System.out.println("Tapez o si oui, tapez r pour recommencer le jeu");
-            choixQuitter = scanner.nextLine();
-        }
-        if (choixQuitter.equals("o")) {
-            menuEnregistrerPartie();
-            throw new FinJeuException();
-        } else if (choixQuitter.equals("r")) {
-            MenuDemarrage menuDemarrage = new MenuDemarrage();
-        }
+    public void fuite() throws SortieJeuException {
+        De6Faces de = new De6Faces();
+        int nbCases = de.valeur();
+        hero.goesBack(nbCases);
+        System.out.println("vous avez reculé de " + nbCases + " cases.");
     }
 
-    /**
-     * méthode demandant à l'utilisateur de sauvegarder des éléments d'une partie avant de quitter.
-     */
-    private void menuEnregistrerPartie() {
-        System.out.println("Voulez-vous enregistrer votre héros avant de quitter le jeu ?");
-        String choix = "";
-        while (!(choix.equals("o") || choix.equals("n"))) {
-            System.out.println("Tapez o si oui, tapez n pour quitter sans enregistrer");
-            choix = scanner.nextLine();
-        }
-        if (choix.equals("o")) {
-            bdd.requetePostHero(hero);
-            System.out.println("Votre personnage a bien été enregistré.");
-        }
-    }
 
 }
+

@@ -3,6 +3,7 @@ package main.plateau;
 import characters.*;
 import equipements.*;
 import exceptions.*;
+import main.Game;
 import main.cases.*;
 
 import java.util.Map;
@@ -12,8 +13,8 @@ import static java.util.Map.entry;
 
 public class RandomPlateau extends Plateau {
 
-    public RandomPlateau(int nombreCasesPlateau, String difficulte) throws PourcentagesPlateauException {
-        super();
+    public RandomPlateau(int nombreCasesPlateau, String difficulte, Game game) throws PourcentagesPlateauException {
+        super(game);
         if (difficulte.equals("dur")){
             this.listeEvents = Map.ofEntries(
                     entry("characters.Dragon", 5),
@@ -70,7 +71,7 @@ public class RandomPlateau extends Plateau {
                         this.plateau[randomCases[i]] = new EmptyCase();
                     } else if (typeEvent.equals("characters.Dragon") || typeEvent.equals("characters.Sorcier") || typeEvent.equals("characters.Gobelin")) {
                         Monster monster = (Monster) classe.getConstructor().newInstance();
-                        this.plateau[randomCases[i]] = new CaseMonster(monster);
+                        this.plateau[randomCases[i]] = new CaseMonster(monster, game);
                     } else if (typeEvent.equals("equipements.GrandePotion") || typeEvent.equals("equipements.PotionSimple")) {
                         Potion potion = (Potion) classe.getConstructor().newInstance();
                         this.plateau[randomCases[i]] = new CasePotion(potion);

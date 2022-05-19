@@ -3,6 +3,7 @@ package main.plateau;
 import characters.Monster;
 import equipements.Equipement;
 import equipements.Potion;
+import main.Game;
 import main.cases.*;
 
 import java.util.Map;
@@ -11,8 +12,8 @@ import static java.util.Map.entry;
 
 public class FakePlateau extends Plateau {
 
-    public FakePlateau(int nombreCasesPlateau) {
-        super();
+    public FakePlateau(int nombreCasesPlateau, Game game) {
+        super(game);
         int espace = 5 ;
         this.listeEvents = Map.ofEntries(
                 entry("characters.Gobelin", espace*1),
@@ -43,7 +44,7 @@ public class FakePlateau extends Plateau {
                 Class classe = Class.forName(typeEvent);
                 if (typeEvent.equals("characters.Dragon") || typeEvent.equals("characters.Sorcier") || typeEvent.equals("characters.Gobelin")) {
                     Monster monster = (Monster) classe.getConstructor().newInstance();
-                    this.plateau[numeroCaseEvent] = new CaseMonster(monster);
+                    this.plateau[numeroCaseEvent] = new CaseMonster(monster, game);
                 } else if (typeEvent.equals("equipements.GrandePotion") || typeEvent.equals("equipements.PotionSimple")) {
                     Potion potion = (Potion) classe.getConstructor().newInstance();
                     this.plateau[numeroCaseEvent] = new CasePotion(potion);

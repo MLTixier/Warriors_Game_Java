@@ -3,7 +3,6 @@ package characters;
 import java.util.Scanner;
 
 public abstract class Character {
-    public Scanner scanner;
     private String name;
     private int attack;
     private int life;

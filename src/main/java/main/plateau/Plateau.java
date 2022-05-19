@@ -1,5 +1,6 @@
 package main.plateau;
 
+import main.Game;
 import main.cases.Case;
 
 import java.util.Map;
@@ -8,8 +9,10 @@ public abstract class Plateau {
 
     protected Map<String, Integer> listeEvents ;
     protected Case[] plateau ;
+    protected Game game;
 
-    public Plateau() {
+    public Plateau(Game game) {
+        this.game = game;
     }
 
     public Case[] getPlateau() {

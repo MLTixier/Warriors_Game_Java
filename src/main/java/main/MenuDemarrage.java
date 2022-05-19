@@ -2,15 +2,21 @@ package main;
 
 import characters.*;
 import exceptions.*;
+import main.BDD.DB;
+import main.BDD.FakeDB;
+import main.BDD.HeroDAO;
+import main.BDD.RealDB;
 
 import java.util.List;
 import java.util.Scanner;
 
 public class MenuDemarrage {
 
-    public Scanner scanner;
-    public Hero hero;
-    public BDD bdd;
+    private Scanner scanner;
+    private Hero hero;
+    private DB db;
+    private HeroDAO heroDAO ;
+    private String dbExists ;
 
     /**
      * constructeur pour la classe MenuDemarrage : créée un scanner et créée un héros.
@@ -19,8 +25,14 @@ public class MenuDemarrage {
      * @throws PourcentagesPlateauException
      */
 
-    public MenuDemarrage() throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
-        this.bdd = new BDD();
+    public MenuDemarrage(String dbExists) throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
+        if (dbExists.equals("true")){
+            this.db = new RealDB();
+        } else {
+            this.db = new FakeDB();
+        }
+        this.heroDAO = new HeroDAO(db.getConnexion());
+        this.dbExists = dbExists;
         this.scanner = new Scanner(System.in);
         questionsMenu1();
     }
@@ -34,21 +46,20 @@ public class MenuDemarrage {
     public void questionsMenu1() throws PourcentagesPlateauException, FinJeuException, SortieJeuException {
         System.out.println("Que souhaitez-vous faire ?");
         String menu1Choice = "";
-        while (!(menu1Choice.equals("a") || menu1Choice.equals("c") || menu1Choice.equals("e"))) {
+        while (!(menu1Choice.equals("c") || menu1Choice.equals("a"))) {
             System.out.println("Pour créer votre personnage, tapez c");
-            System.out.println("Pour afficher les personnages pré-enregistrées, tapez a");
-            System.out.println("Pour choisir un des personnages pré-enregistrés, tapez e");
+            System.out.println("Pour afficher et choisir un des personnages pré-enregistrés, tapez a");
             menu1Choice = scanner.nextLine();
-        }
-        if (menu1Choice.equals("a")) {
-            afficherHerosDB();
-            questionsMenu1();
         }
         if (menu1Choice.equals("c")) {
             creerPersonnage();
         }
-        if (menu1Choice.equals("e")) {
-            selectionnerHerosDB();
+        if (menu1Choice.equals("a")) {
+            if (dbExists.equals("true")){
+                selectionnerHerosDB();
+            } else {
+                System.out.println("La base de données n'est pas accesible.");
+            }
         }
     }
 
@@ -58,7 +69,7 @@ public class MenuDemarrage {
     public void afficherHerosDB() {
         System.out.println("les héros pré-enregistrés sont les suivants : ");
         System.out.println("");
-        List<Hero> listeHeroes = bdd.requeteGetHeroes();
+        List<Hero> listeHeroes = heroDAO.getAll();
         int nbHeroes = listeHeroes.size();
         for (int i = 0; i < nbHeroes; i++) {
             System.out.print(i);
@@ -76,7 +87,7 @@ public class MenuDemarrage {
      */
     public void selectionnerHerosDB() throws PourcentagesPlateauException, FinJeuException, SortieJeuException {
         afficherHerosDB();
-        int nbHeroes = bdd.requeteGetHeroes().size();
+        int nbHeroes = heroDAO.getAll().size();
         System.out.println("Quel héros souhaitez-vous prendre ?");
         String choice = "";
         while (!(choiceInfNbHeroes(choice, nbHeroes) || choice.equals("q"))) {
@@ -86,7 +97,7 @@ public class MenuDemarrage {
         if (choice.equals("q")) {
             questionsMenu1();
         } else {
-            this.hero = bdd.requeteGetHeroes().get(Integer.valueOf(choice));
+            this.hero = heroDAO.get(Integer.valueOf(choice));
             questionsMenu2();
         }
     }
@@ -203,7 +214,47 @@ public class MenuDemarrage {
      * @throws PourcentagesPlateauException
      */
     public void jouer() throws SortieJeuException, PourcentagesPlateauException, FinJeuException {
-        Game game = new Game(scanner, hero, "dur", 65, bdd);
+        Game game = new Game(scanner, hero, "dur", 65, db, this);
     }
+
+
+    /**
+     * méthode pour quitter le jeu
+     */
+    public void quitter() throws PourcentagesPlateauException, SortieJeuException, FinJeuException {
+        System.out.println("Voulez-vous quitter le jeu définitivement ?");
+        String choixQuitter = "";
+        while (!(choixQuitter.equals("o") || choixQuitter.equals("r"))) {
+            System.out.println("Tapez o si oui, tapez r pour recommencer le jeu");
+            choixQuitter = scanner.nextLine();
+        }
+        if (choixQuitter.equals("o")) {
+            menuEnregistrerPartie();
+            throw new FinJeuException();
+        } else if (choixQuitter.equals("r")) {
+            MenuDemarrage menuDemarrage = new MenuDemarrage(dbExists);
+        }
+    }
+
+    /**
+     * méthode demandant à l'utilisateur de sauvegarder des éléments d'une partie avant de quitter.
+     */
+    private void menuEnregistrerPartie() {
+        System.out.println("Voulez-vous enregistrer votre héros avant de quitter le jeu ?");
+        String choix = "";
+        while (!(choix.equals("o") || choix.equals("n"))) {
+            System.out.println("Tapez o si oui, tapez n pour quitter sans enregistrer");
+            choix = scanner.nextLine();
+        }
+        if (choix.equals("o")) {
+            if (dbExists.equals("true")){
+                heroDAO.post(hero);
+                System.out.println("Votre personnage a bien été enregistré.");
+            } else {
+                System.out.println("La base de données n'est pas accesible.");
+            }
+        }
+    }
+
 
 }
